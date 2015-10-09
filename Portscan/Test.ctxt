@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\r\n\ Main\ method\ -\ runs\ the\ port\ scan\ (no\ data\ vaildation\ is\ implemented)\r\n\ \r\n\ \r\n\ @param\ \ \ \ \ \ arg[0]\ \ \:\ \ \ \ ip\ address\ \r\n\ @param\ \ \ \ \ \ arg\ [1]\ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MIN\ \r\n\ @param\ \ \ \ \ \ arg[2]\ \ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MAX\r\n\ \r\n\ @return\ \ \ \ \ void\r\n
+comment1.params=es\ ip\ port\ timeout
+comment1.target=java.util.concurrent.Future\ portIsOpen(java.util.concurrent.ExecutorService,\ java.lang.String,\ int,\ int)
+comment1.text=\r\n\ portIsOpen\ -\ attempts\ to\ establish\ a\ connection\ with\ open\ port\ \r\n\ \r\n\ @param\ \ \ \ \ \ ip\ \ \ \ \ \ \:\ \ \ \ ip\ address\ to\ be\ scanned\ for\ open\ ports\r\n\ @param\ \ \ \ \ \ port\ \ \ \ \:\ \ \ \ the\ port\ to\ be\ scanned\r\n\ @param\ \ \ \ \ \ timeout\ \:\ \ \ \ how\ long\ to\ wait\ for\ the\ connection\ to\ be\ established\r\n\ \r\n\ @return\ \ \ \ \ true\ \ \ \ \:\ \ \ \ If\ a\ connection\ was\ established\ return\ true\r\n\ @return\ \ \ \ \ false\ \ \ \:\ \ \ \ If\ an\ exception\ was\ thrown\ due\ to\ an\ connection\ not\ being\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ established\ return\ false\r\n
+comment2.params=
+comment2.target=java.lang.Boolean\ call()
+numComments=3
