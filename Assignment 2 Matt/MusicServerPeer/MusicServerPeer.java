@@ -155,7 +155,6 @@ public class MusicServerPeer
                 break;
             case 3: //request song
                 this.requestSong();
-                new TCPSongRequest().run();
                 break;
             case 4: //Add Song
                 this.addSong();
@@ -310,7 +309,7 @@ public class MusicServerPeer
         }
     }
     
-    void requestSong()
+    public void requestSong()
     {
         String songRequested = this.selectSong(); //ask the peer what song they would like
         String message = this.requestPeerWithSong(songRequested); //ask the server what peers have the song
@@ -320,6 +319,26 @@ public class MusicServerPeer
         {
            peersWithSong.add(parts[i].substring(1));
         } 
-        
+        if (!peersWithSong.isEmpty()) {
+            TCPRequestSong(peersWithSong.get(0)); //only the first ip in the list, maybe fix this to let user choose
+        }
+    }
+    
+    public void TCPRequestSong(String ip) {
+        try {
+            String sentence;   
+            String modifiedSentence;   
+            BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));   
+            Socket clientSocket = new Socket(ip, 6789);   
+            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());   
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   
+            sentence = inFromUser.readLine();   
+            outToServer.writeBytes(sentence + '\n');   
+            modifiedSentence = inFromServer.readLine();   
+            System.out.println("FROM SERVER: " + modifiedSentence);   
+            clientSocket.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
