@@ -11,6 +11,8 @@ public class MusicServerPeer
 {
     private ArrayList<String> songs;
     private boolean running = true;
+    private String serverIP;
+    
     /**
      * Constructor for objects of class MusicServerPeer
      */
@@ -21,7 +23,9 @@ public class MusicServerPeer
 
     public static void main(String args[])  
     { 
-        MusicServerPeer peer = new MusicServerPeer();    
+        MusicServerPeer peer = new MusicServerPeer();
+        (new Thread(new TCPListener(peer))).start();
+        peer.serverIP = args[0];
         peer.updateSongList();
         peer.register();
         while(peer.isRunning())
@@ -40,7 +44,7 @@ public class MusicServerPeer
         try {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
             DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName("localhost");       
+            InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] sendData = new byte[1024];            
             String sentence = "Online," + this.getSongList().size();       
             for (int i = this.getSongList().size(); i > 0; i--)
@@ -82,7 +86,7 @@ public class MusicServerPeer
         {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
             DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName("localhost");       
+            InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] data = new byte[1024];       
             byte[] receiveData = new byte[1024]; 
             song = "Song," + song;
@@ -108,7 +112,7 @@ public class MusicServerPeer
         try {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
             DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName("localhost");       
+            InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] sendData = new byte[1024];            
             String sentence = "Update," + this.getSongList().size();       
             for (int i = this.getSongList().size(); i > 0; i--)
@@ -151,6 +155,7 @@ public class MusicServerPeer
                 break;
             case 3: //request song
                 this.requestSong();
+                new TCPSongRequest().run();
                 break;
             case 4: //Add Song
                 this.addSong();
@@ -281,7 +286,7 @@ public class MusicServerPeer
         try {
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
             DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName("localhost");       
+            InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] sendData = new byte[1024]; 
             byte[] receiveData = new byte[1024];
             String sentence = "List";      
