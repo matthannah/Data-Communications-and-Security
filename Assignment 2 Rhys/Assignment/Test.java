@@ -68,7 +68,7 @@ public class Test
         
         //Writes the Introduction to the Port Scanner Report
         out.write(dataToWrite);
-                
+                               
         //Loops through entire port scan for each additional IP the user wants to check 
         for (int ipCount = 0; ipCount < numIp; ipCount++)
         {
@@ -87,10 +87,7 @@ public class Test
             
             //Recombines the two pieces of the IP with into the now incremented IP
             String nextIp = firstHalfOfIp + Integer.toString(currentIp);
-            
-            //Checks that the IP id from the local subnet
-            //@TODO ^that
-            
+                       
             //Prints a message to the console to show that the next IP address is being used for a round
             //of port tests
             System.out.println("Port scan results for IP address " + nextIp);
@@ -104,86 +101,114 @@ public class Test
             //Writes the data to the report file.
             out.write(dataToWrite);
             
-            //Loop counts from the starting port to the finishing port and a unique random port is tested
-            //each time the counter increments.
-            for (int port = portStart; port <= portEnd;) 
+            //Checks if the next IP to be scanned is in the hosts subnet
+            if (inMySubnet(nextIp, out))
             {
-                //Generates a random number between the start and end ports. This is done by getting a random
-                //number between 0 and the difference between the start and end port. This is then added to
-                //the end port.
-                int portNext = (int)(Math.random()*(portEnd+1-portStart)) + portStart;
-                
-                //Generates a random number to be used as the timeout for port tests. This is done in the
-                //same way as the port numbers.
-                int timeout = (int)(Math.random()*(timeoutMax+1-timeoutMin)) + timeoutMin;
-                
-                //Checks to see if the port number generated is a unique number. If it is not then the loop
-                //is run again without incrementing the counter so that a new number can be generated.
-                if (!(portToScan.contains(portNext))) 
-                {
-                    //Adds the newly made unique random port number to the list of scaned ports
-                    portToScan.add(portNext);
-                    
-                    //Prints to the console the latest port number added to this list
-                    //Now only used for testing.
-                    //System.out.println("" + portToScan.get(port - portStart));
-                    
-                    //Runs the function portIsOpen using the IP provided by the user, the latest addition
-                    //to the list of ports that need to be scaned, and the last random timeout value made.
-                    //This function is the one responsible for actually testing ports. It returns a boolean
-                    //which is added to the futures list. This means that multiple tests can be run at the  
-                    //same time and any functions that relie on the result will wait until the test is 
-                    //actually complete.
-                    futures.add(portIsOpen(es, nextIp, portToScan.get(port - portStart), timeout, out));
-                    
-                    //Increments the counter. Only used when a test of a unique port takes place
-                    port++;
-                }
-            }      
-                        
-            //Checks the result of each port test undertaken. As the check is done against a list of future
-            //values, the check will only be carried out once the result is actually ready.
-            for (final Future<Boolean> f : futures) 
-            {
-                //Checks the next outcome of a port test. If the reslut is is not present it will wait until
-                //it is.
-                if (f.get()) 
-                {
-                    //Increments the count of ports that are open for each successful test.
-                    openPorts++;
-                }
-            }
-            
-            //Checks if only a single port is open. This is only done so that the syntaxt and gramar used
-            //for displaying results on the console makes sense.
-            if (openPorts == 1)
-            {   
-                //Prints a message to the console containing, the number ports found to be open, the IP that
-                //was checked, and the range of values used for timeouts during testing. 
-                System.out.println("There is " + openPorts + " open port on host " + nextIp +  
-                " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms");
-                
+                //Adds to report file that IP is within subnet
                 //Creates a string that will be converted to bytes then written to the report file.
-                dataToByte = "\r\nThere is " + openPorts + " open port on host " + nextIp +  
-                " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms\r\n\r\n";
-            
+                dataToByte = "Within the same subnet\r\n\r\n";
+                                                  
                 //Converts the string into bytes.
                 dataToWrite = dataToByte.getBytes();
             
                 //Writes the data to the report file.
                 out.write(dataToWrite);
+                                
+                //Loop counts from the starting port to the finishing port and a unique random port is tested
+                //each time the counter increments.
+                for (int port = portStart; port <= portEnd;) 
+                {
+                    //Generates a random number between the start and end ports. This is done by getting a random
+                    //number between 0 and the difference between the start and end port. This is then added to
+                    //the end port.
+                    int portNext = (int)(Math.random()*(portEnd+1-portStart)) + portStart;
+                    
+                    //Generates a random number to be used as the timeout for port tests. This is done in the
+                    //same way as the port numbers.
+                    int timeout = (int)(Math.random()*(timeoutMax+1-timeoutMin)) + timeoutMin;
+                    
+                    //Checks to see if the port number generated is a unique number. If it is not then the loop
+                    //is run again without incrementing the counter so that a new number can be generated.
+                    if (!(portToScan.contains(portNext))) 
+                    {
+                        //Adds the newly made unique random port number to the list of scaned ports
+                        portToScan.add(portNext);
+                        
+                        //Prints to the console the latest port number added to this list
+                        //Now only used for testing.
+                        //System.out.println("" + portToScan.get(port - portStart));
+                        
+                        //Runs the function portIsOpen using the IP provided by the user, the latest addition
+                        //to the list of ports that need to be scaned, and the last random timeout value made.
+                        //This function is the one responsible for actually testing ports. It returns a boolean
+                        //which is added to the futures list. This means that multiple tests can be run at the  
+                        //same time and any functions that relie on the result will wait until the test is 
+                        //actually complete.
+                        futures.add(portIsOpen(es, nextIp, portToScan.get(port - portStart), timeout, out));
+                        
+                        //Increments the counter. Only used when a test of a unique port takes place
+                        port++;
+                    }
+                }      
+                            
+                //Checks the result of each port test undertaken. As the check is done against a list of future
+                //values, the check will only be carried out once the result is actually ready.
+                for (final Future<Boolean> f : futures) 
+                {
+                    //Checks the next outcome of a port test. If the reslut is is not present it will wait until
+                    //it is.
+                    if (f.get()) 
+                    {
+                        //Increments the count of ports that are open for each successful test.
+                        openPorts++;
+                    }
+                }
+                
+                //Checks if only a single port is open. This is only done so that the syntaxt and gramar used
+                //for displaying results on the console makes sense.
+                if (openPorts == 1)
+                {   
+                    //Prints a message to the console containing, the number ports found to be open, the IP that
+                    //was checked, and the range of values used for timeouts during testing. 
+                    System.out.println("There is " + openPorts + " open port on host " + nextIp +  
+                    " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms");
+                    
+                    //Creates a string that will be converted to bytes then written to the report file.
+                    dataToByte = "\r\nThere is " + openPorts + " open port on host " + nextIp +  
+                    " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms\r\n\r\n";
+                
+                    //Converts the string into bytes.
+                    dataToWrite = dataToByte.getBytes();
+                
+                    //Writes the data to the report file.
+                    out.write(dataToWrite);
+                }
+                else
+                {
+                    //Prints the same message as above but with syntaxt and gramar changes to make sense with a
+                    //number of ports being found not being 1.
+                    System.out.println("There are " + openPorts + " open ports on host " + nextIp +  
+                    " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms");
+                    
+                    //Creates a string that will be converted to bytes then written to the report file.
+                    dataToByte = "\r\nThere are " + openPorts + " open ports on host " + nextIp +  
+                    " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms\r\n\r\n";
+                
+                    //Converts the string into bytes.
+                    dataToWrite = dataToByte.getBytes();
+                
+                    //Writes the data to the report file.
+                    out.write(dataToWrite);
+                }
             }
+            
+            //What happens when not in the same subnet as you
             else
             {
-                //Prints the same message as above but with syntaxt and gramar changes to make sense with a
-                //number of ports being found not being 1.
-                System.out.println("There are " + openPorts + " open ports on host " + nextIp +  
-                " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms");
-                
+                //Adds to report file that IP is not within subnet
                 //Creates a string that will be converted to bytes then written to the report file.
-                dataToByte = "\r\nThere are " + openPorts + " open ports on host " + nextIp +  
-                " probed with a timeout between " + timeoutMin + "ms and " + timeoutMax + "ms\r\n\r\n";
-            
+                dataToByte = "Not in the same subnet\r\n\r\n";
+                                                  
                 //Converts the string into bytes.
                 dataToWrite = dataToByte.getBytes();
             
@@ -265,7 +290,141 @@ public class Test
                     //attempting to connect, that the port is not open.
                     return false;
                 }
+            }
+        });
+    }
+    
+    /*--------------------------------------------------------------------------------------------------*/
+    // isMySubnet checks if a given IP address is a part of the users subnet. This is done by obtaining
+    // the subnet and IP of the user and then comparing the relavent bits of the two IPs. Relavent bits 
+    // are determind by the subnet mask
+    /*--------------------------------------------------------------------------------------------------*/
+    public static Boolean inMySubnet(String outsideIp, FileOutputStream out)
+    {
+        //Int to hold the length of the subnet
+        int length = 0;
+        
+        //Byte array to hold the byte array version of the IP being tested
+        byte[] testHost = null;
+        
+        //Byte array to hold the byte array version of the local host
+        byte[] localHost = null;
+        
+        //Byte Array to hold the subnet mask
+        byte[] mask = null;
+        
+        //Used to access network information
+        InetAddress localAddress = null;
+        
+        //Used to store the string version of local hosts address
+        String address = "";
+        
+        //Used to store the binary string version of the subnet mask
+        String maskAddress = "";
+                
+        //Atempts to execute a piece of code, if any errors occur the program will instead execute
+        //the catch portion
+        try
+        {
+            //Gets the byte array version of the IP being tested using it's string version
+            testHost = InetAddress.getByName(outsideIp).getAddress();
+            
+            //Gets the address of this computer to use to get network information
+            localAddress = InetAddress.getLocalHost();
+            
+            //Get just the IP from the local host
+            address = localAddress.toString().split("/")[1];
+            
+            //Gets the byte version of the address of this computer
+            localHost = localAddress.getByName(address).getAddress();
+                               
+            //Sets up access to the network information for the address found above
+            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localAddress);
+        
+            //Reads from the network information the length of the subnet mask
+            length = networkInterface.getInterfaceAddresses().get(0).getNetworkPrefixLength();
+            
+            //Used to store the binary version of each section of the subnet mask
+            String binaryByte = "";
+            
+            //Loop generates an string representing the IP address of the subnet mask from the network prefix length 
+            //found above 
+            for(int i = 1; i <= 32; i++)
+            {
+                //Checks if the length of the prefix has been reached if so 0s should be added, if not 1s should be added 
+                if(i <= length)
+                {
+                    //Adds a 1 to the binary version of a part of the subnet mask
+                    binaryByte += "1";                    
+                }
+                else
+                {
+                    //Adds a 0 to the binary version of a part of the subnet mask
+                    binaryByte += "0";
+                }
+                
+                //Chacks to see if the 8th bit has been reached which means a number can be formed for the subnet mask
+                if (i % 8 == 0)
+                {
+                    //Converts the bianary byte to a number which can form part of the IP address of the subnet mask
+                    maskAddress += Integer.toString(Integer.parseInt(binaryByte, 2));
+                    
+                    //Clear the binary byte field so it can be reused
+                    binaryByte = "";
+                    
+                    //Check that it is not the end of the address which doesn't need a .
+                    if (i != 32)
+                    {
+                        //Add a . to the subnet mask
+                        maskAddress += ".";
+                    }
+                }
+            }
+            
+            //Makes the byte array version of the subnet mask
+            mask = localAddress.getByName(maskAddress).getAddress();
         }
-   });
-}
+        
+        //What is done if an error occurs during the try portion above
+        catch (Exception e)
+        {
+            //Prints a message to the user to tell them there has been an error
+            System.out.println("An error has occured");
+            
+            //Creates a string that will be converted to bytes then written to the report file.
+            //Re-inistialised here as this is a different scope
+            String dataToByte = "An error occured during this port scan\r\n";
+    
+            //Converts the string into bytes. Re-inistialised here as this is a different scope
+            byte dataToWrite[] = dataToByte.getBytes();
+            
+            //Tries to write to the file that contains the port scan report
+            try
+            {
+                //Writes the data to the report file.
+                out.write(dataToWrite);
+            }
+            
+            //What happens if the program cannot write to the report
+            catch (Exception fileError)
+            {
+                //Prints a message to the user to tell them there has been an error
+                System.out.println("Another error has occured");
+            }
+        }
+
+        //Loop compares each of the bits in the two IPs for the length of the subnet mask
+        for (int i = 0; i < mask.length; i++)
+        {   
+            //Check if the two IPs are equal at each bit for the length of the subnet mask
+            if ((localHost[i] & mask[i]) != (testHost[i] & mask[i]))
+            {
+                //If they are not the same at any bit for the length of the subnet mask then return false
+                return false;
+            }
+        }
+
+        //If the loop is allowed to finish then all relavent bits must match, therefore return true
+        return true;
+    }
 }
