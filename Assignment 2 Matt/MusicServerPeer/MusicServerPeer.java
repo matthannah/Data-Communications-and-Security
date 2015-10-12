@@ -170,7 +170,7 @@ public class MusicServerPeer
                 exit();
                 break;
             default:
-                
+                //do nothing
         }
     }
     
@@ -336,7 +336,8 @@ public class MusicServerPeer
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());   
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));     
             outToServer.writeBytes(message);   
-            //wait for song file
+            //InputStream is = clientSocket.getInputStream();
+            //need more code here
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
