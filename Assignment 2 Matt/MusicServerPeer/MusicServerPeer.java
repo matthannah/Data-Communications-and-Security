@@ -324,13 +324,13 @@ public class MusicServerPeer
         } 
         if (!peersWithSong.isEmpty()) {
             System.out.println("Requesting song from: " + peersWithSong.get(0));
-            TCPRequestSong(peersWithSong.get(0)); //only the first ip in the list, maybe fix this to let user choose
+            TCPRequestSong(peersWithSong.get(0), songRequested); //only the first ip in the list, maybe fix this to let user choose
         }
     }
     
-    public void TCPRequestSong(String ip) {
+    public void TCPRequestSong(String ip, String songRequested) {
         try {
-            String message = "SendSong," + ip;    
+            String message = "SendSong," + songRequested;    
             BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));   
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());   

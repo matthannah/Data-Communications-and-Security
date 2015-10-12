@@ -36,7 +36,8 @@ public class TCPListener implements Runnable
                 if (message.startsWith("SendSong"))
                 {
                     String parts[] = message.split(",");
-                    System.out.println("...\nSending song to: " + parts[1] + "...");
+                    System.out.println("...\nSending song " + parts[1] + " to: " 
+                        + connectionSocket.getInetAddress().getHostName() + "\n...");
                 }
             }
             serverSocket.close();
