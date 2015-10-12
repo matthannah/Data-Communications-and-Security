@@ -38,7 +38,7 @@ public class TCPListener implements Runnable
                     String parts[] = message.split(",");
                     System.out.println("...\nSending song " + parts[1] + " to: " 
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
-                    BufferedOutputStream outToPeer = new BufferedOutputStream(connectionSocket.getOutputStream());
+                    OutputStream outToPeer = connectionSocket.getOutputStream();
                     if (outToPeer != null) 
                     {
                         File songFile = new File("songs/"+parts[1]); //could be wrong

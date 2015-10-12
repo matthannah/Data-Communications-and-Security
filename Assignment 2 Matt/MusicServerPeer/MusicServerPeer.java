@@ -360,12 +360,11 @@ public class MusicServerPeer
                 bos.write(baos.toByteArray());
                 bos.flush();
                 bos.close();
-                System.out.println("Song transfer complete");
             }
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println("Song transfer failed");
+        System.out.println("Song transfer complete");
     }
 }
