@@ -8,8 +8,9 @@ import java.net.*;
  */
 public class TCPListener implements Runnable
 {
-    MusicServerPeer musicServerPeer;
-    boolean listen = true;
+    private MusicServerPeer musicServerPeer;
+    private ServerSocket serverSocket;
+    private boolean listen = true;
     
     /**
      * Constructor for objects of class TCPListener
@@ -25,16 +26,18 @@ public class TCPListener implements Runnable
         {
             String message;
             String capitalizedSentence;
-            ServerSocket serverSocket = new ServerSocket(6789);
+            serverSocket = new ServerSocket(6789);
             while (listen)
             {
                 Socket connectionSocket = serverSocket.accept();             
                 BufferedReader inFromPeer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));             
                 DataOutputStream outToPeer = new DataOutputStream(connectionSocket.getOutputStream());             
-                message = inFromPeer.readLine();             
-                System.out.println("Received: " + message);             
-                capitalizedSentence = message.toUpperCase() + '\n';             
-                outToPeer.writeBytes(capitalizedSentence); 
+                message = inFromPeer.readLine();
+                if (message.startsWith("SendSong"))
+                {
+                    String parts[] = message.split(",");
+                    System.out.println(parts[1]);
+                }
             }
             serverSocket.close();
         }
@@ -44,4 +47,16 @@ public class TCPListener implements Runnable
         }
     }
 
+    public void finish()
+    {
+        listen = false;
+        try
+        {
+            serverSocket.close();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
 }

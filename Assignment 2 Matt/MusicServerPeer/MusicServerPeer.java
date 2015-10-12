@@ -12,6 +12,7 @@ public class MusicServerPeer
     private ArrayList<String> songs;
     private boolean running = true;
     private String serverIP;
+    private TCPListener tcpListener;
     
     /**
      * Constructor for objects of class MusicServerPeer
@@ -24,7 +25,8 @@ public class MusicServerPeer
     public static void main(String args[])  
     { 
         MusicServerPeer peer = new MusicServerPeer();
-        (new Thread(new TCPListener(peer))).start();
+        peer.tcpListener = new TCPListener(peer);
+        new Thread(peer.tcpListener).start();
         peer.serverIP = args[0];
         peer.updateSongList();
         peer.register();
@@ -46,10 +48,10 @@ public class MusicServerPeer
             DatagramSocket clientSocket = new DatagramSocket();       
             InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] sendData = new byte[1024];            
-            String sentence = "Online," + this.getSongList().size();       
-            for (int i = this.getSongList().size(); i > 0; i--)
+            String sentence = "Online," + songs.size();       
+            for (int i = songs.size(); i > 0; i--)
             {
-                sentence = sentence + "," + this.getSongList().get(i - 1);
+                sentence = sentence + "," + songs.get(i - 1);
             }
             sendData = sentence.getBytes(); 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);       
@@ -114,10 +116,10 @@ public class MusicServerPeer
             DatagramSocket clientSocket = new DatagramSocket();       
             InetAddress IPAddress = InetAddress.getByName(serverIP);       
             byte[] sendData = new byte[1024];            
-            String sentence = "Update," + this.getSongList().size();       
-            for (int i = this.getSongList().size(); i > 0; i--)
+            String sentence = "Update," + songs.size();       
+            for (int i = songs.size(); i > 0; i--)
             {
-                sentence = sentence + "," + this.getSongList().get(i - 1);
+                sentence = sentence + "," + songs.get(i - 1);
             }
             sendData = sentence.getBytes(); 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);       
@@ -151,21 +153,21 @@ public class MusicServerPeer
                 System.out.println("Option 1 selected");
                 break;
             case 2: //show songs
-                this.requestSongList();
+                requestSongList();
                 break;
             case 3: //request song
-                this.requestSong();
+                requestSong();
                 break;
             case 4: //Add Song
-                this.addSong();
+                addSong();
                 break;
             case 5: //Remove Song
-                this.removeSong();
+                removeSong();
                 break;
             case 6:
                 //maybe add in unregister()
                 System.out.println("Exiting...");
-                this.exit();
+                exit();
                 break;
             default:
                 
@@ -179,6 +181,7 @@ public class MusicServerPeer
     
     public void exit()
     {
+        tcpListener.finish();
         running = false;
     }
     
@@ -201,7 +204,7 @@ public class MusicServerPeer
     {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        Integer numberOfSongs = this.getSongList().size();
+        Integer numberOfSongs = songs.size();
         String input = "c";
         try
         {
@@ -215,13 +218,13 @@ public class MusicServerPeer
         }
         if (!input.equals("c"))
         {
-            this.updateSongList();
-            if(numberOfSongs<this.getSongList().size())
+            updateSongList();
+            if(numberOfSongs<songs.size())
             {
                 System.out.println("Song added - notifying server");
-                this.notifyUpdateSongList();
+                notifyUpdateSongList();
             }
-            else if(numberOfSongs>this.getSongList().size())
+            else if(numberOfSongs>songs.size())
             {
                 System.out.println("Perhaps you meant to remove a song?");
             }
@@ -238,14 +241,14 @@ public class MusicServerPeer
     
     public void updateSongList()
     {
-        songs = this.getSongsFromFile();
+        songs = getSongsFromFile();
     }
     
     public void removeSong()
     {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        Integer numberOfSongs = this.getSongList().size();
+        Integer numberOfSongs = getSongList().size();
         String input = "c";
         try
         {
@@ -259,15 +262,15 @@ public class MusicServerPeer
         }
         if (!input.equals("c"))
         {
-            this.updateSongList();
-            if(numberOfSongs<this.getSongList().size())
+            updateSongList();
+            if(numberOfSongs<getSongList().size())
             {
                 System.out.println("Perhaps you meant to add a song?");
             }
-            else if(numberOfSongs>this.getSongList().size())
+            else if(numberOfSongs>getSongList().size())
             {
                 System.out.println("Song removed - notifying server");
-                this.notifyUpdateSongList();
+                notifyUpdateSongList();
             }
             else
             {
@@ -311,8 +314,8 @@ public class MusicServerPeer
     
     public void requestSong()
     {
-        String songRequested = this.selectSong(); //ask the peer what song they would like
-        String message = this.requestPeerWithSong(songRequested); //ask the server what peers have the song
+        String songRequested = selectSong(); //ask the peer what song they would like
+        String message = requestPeerWithSong(songRequested); //ask the server what peers have the song
         String parts[] = message.split(",");
         ArrayList<String> peersWithSong = new ArrayList<String>();
         for( int i = Integer.valueOf(parts[0]); i > 0; i--)
@@ -320,22 +323,20 @@ public class MusicServerPeer
            peersWithSong.add(parts[i].substring(1));
         } 
         if (!peersWithSong.isEmpty()) {
+            System.out.println("Requesting song from: " + peersWithSong.get(0));
             TCPRequestSong(peersWithSong.get(0)); //only the first ip in the list, maybe fix this to let user choose
         }
     }
     
     public void TCPRequestSong(String ip) {
         try {
-            String sentence;   
-            String modifiedSentence;   
+            String message = "SendSong," + ip;    
             BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));   
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());   
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));   
-            sentence = inFromUser.readLine();   
-            outToServer.writeBytes(sentence + '\n');   
-            modifiedSentence = inFromServer.readLine();   
-            System.out.println("FROM SERVER: " + modifiedSentence);   
+            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));     
+            outToServer.writeBytes(message);   
+            //wait for song file
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
