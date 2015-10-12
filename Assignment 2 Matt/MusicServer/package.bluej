@@ -26,15 +26,9 @@ dependency8.type=UsesDependency
 objectbench.height=76
 objectbench.width=584
 package.editor.height=344
-<<<<<<< HEAD
-package.editor.width=476
-package.editor.x=19
-package.editor.y=211
-=======
 package.editor.width=486
-package.editor.x=357
-package.editor.y=94
->>>>>>> b60231d931bb0934e2c3226ad38064529dff51ea
+package.editor.x=656
+package.editor.y=235
 package.numDependencies=8
 package.numTargets=6
 package.showExtends=true
@@ -70,17 +64,10 @@ target2.typeParameters=
 target2.width=80
 target2.x=460
 target2.y=80
-<<<<<<< HEAD
-target3.editor.height=645
-target3.editor.width=1195
-target3.editor.x=0
-target3.editor.y=106
-=======
 target3.editor.height=744
 target3.editor.width=1382
-target3.editor.x=-8
-target3.editor.y=-8
->>>>>>> b60231d931bb0934e2c3226ad38064529dff51ea
+target3.editor.x=189
+target3.editor.y=72
 target3.height=50
 target3.name=UDPMessageHandler
 target3.naviview.expanded=true
@@ -92,13 +79,8 @@ target3.x=220
 target3.y=140
 target4.editor.height=700
 target4.editor.width=900
-<<<<<<< HEAD
-target4.editor.x=380
-target4.editor.y=50
-=======
 target4.editor.x=371
 target4.editor.y=17
->>>>>>> b60231d931bb0934e2c3226ad38064529dff51ea
 target4.height=50
 target4.name=MusicServer
 target4.naviview.expanded=true
@@ -110,13 +92,8 @@ target4.x=90
 target4.y=0
 target5.editor.height=700
 target5.editor.width=900
-<<<<<<< HEAD
-target5.editor.x=380
-target5.editor.y=50
-=======
 target5.editor.x=210
 target5.editor.y=61
->>>>>>> b60231d931bb0934e2c3226ad38064529dff51ea
 target5.height=50
 target5.name=SongFileWriter
 target5.naviview.expanded=true

@@ -329,15 +329,35 @@ public class MusicServerPeer
     }
     
     public void TCPRequestSong(String ip, String songRequested) {
-        try {
-            String message = "SendSong," + songRequested;    
+        try 
+        {
+            String message = "SendSong," + songRequested; 
+            final String fileOutput = "songs/"+songRequested;
             BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));   
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());   
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));     
-            outToServer.writeBytes(message);   
-            //InputStream is = clientSocket.getInputStream();
-            //need more code here
+            outToServer.writeBytes(message);
+            
+            //receive song
+            byte[] aByte = new byte[1];
+            int bytesRead;
+            InputStream is = clientSocket.getInputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            if (is != null) 
+            {
+                FileOutputStream fos = new FileOutputStream(fileOutput);
+                BufferedOutputStream bos = new BufferedOutputStream(fos);
+                bytesRead = is.read(aByte, 0, aByte.length);
+                do 
+                {
+                    baos.write(aByte);
+                    bytesRead = is.read(aByte);
+                } while (bytesRead != -1);
+                bos.write(baos.toByteArray());
+                bos.flush();
+                bos.close();
+            }
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
