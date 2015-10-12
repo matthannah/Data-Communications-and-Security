@@ -316,15 +316,18 @@ public class MusicServerPeer
     {
         String songRequested = selectSong(); //ask the peer what song they would like
         String message = requestPeerWithSong(songRequested); //ask the server what peers have the song
-        String parts[] = message.split(",");
-        ArrayList<String> peersWithSong = new ArrayList<String>();
-        for( int i = Integer.valueOf(parts[0]); i > 0; i--)
+        if (!message.startsWith("0"))
         {
-           peersWithSong.add(parts[i].substring(1));
-        } 
-        if (!peersWithSong.isEmpty()) {
-            System.out.println("Requesting song from: " + peersWithSong.get(0));
-            TCPRequestSong(peersWithSong.get(0), songRequested); //only the first ip in the list, maybe fix this to let user choose
+            String parts[] = message.split(",");
+            ArrayList<String> peersWithSong = new ArrayList<String>();
+            for( int i = Integer.valueOf(parts[0]); i > 0; i--)
+            {
+               peersWithSong.add(parts[i].substring(1));
+            } 
+            if (!peersWithSong.isEmpty()) {
+                System.out.println("Requesting song from: " + peersWithSong.get(0));
+                TCPRequestSong(peersWithSong.get(0), songRequested); //only the first ip in the list, maybe fix this to let user choose
+            }
         }
     }
     
@@ -357,10 +360,12 @@ public class MusicServerPeer
                 bos.write(baos.toByteArray());
                 bos.flush();
                 bos.close();
+                System.out.println("Song transfer complete");
             }
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
         }
+        System.out.println("Song transfer failed");
     }
 }
