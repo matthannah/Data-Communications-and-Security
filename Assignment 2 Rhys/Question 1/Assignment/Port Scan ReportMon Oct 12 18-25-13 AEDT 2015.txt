@@ -1,0 +1,42 @@
+Port Scan Report
+
+Report generated: Mon Oct 12 18-25-13 AEDT 2015
+Starting IP Address: 10.1.61.0
+Range of IP Address': 5
+Range of Ports: from 0 to 2000
+
+Port Scan Results for IP Address 10.1.61.0
+
+Within the same subnet
+
+
+There are 0 open ports on host 10.1.61.0 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 10.1.61.1
+
+Within the same subnet
+
+
+There are 0 open ports on host 10.1.61.1 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 10.1.61.2
+
+Within the same subnet
+
+
+There are 0 open ports on host 10.1.61.2 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 10.1.61.3
+
+Within the same subnet
+
+
+There are 0 open ports on host 10.1.61.3 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 10.1.61.4
+
+Within the same subnet
+
+
+There are 0 open ports on host 10.1.61.4 probed with a timeout between 100ms and 500ms
+
