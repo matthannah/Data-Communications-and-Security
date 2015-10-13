@@ -340,31 +340,20 @@ public class MusicServerPeer
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());      
             outToServer.writeBytes(message);
-            receiveSong(ip, fileOutput);
-            clientSocket.close();
+            
+            
+            /*byte[] mybytearray = new byte[1024];
+            InputStream is = clientSocket.getInputStream();
+            FileOutputStream fos = new FileOutputStream(fileOutput);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+            bos.write(mybytearray, 0, bytesRead);
+            bos.close();
+            clientSocket.close();*/
         } catch (Exception e) {
             System.out.println(e);
         }
         System.out.println("Song transfer complete");
     }
     
-    public void receiveSong(String ip, String fileOutput)
-    {
-        try
-        {
-            Socket sock = new Socket(ip, 12345);
-            byte[] mybytearray = new byte[1024];
-            InputStream is = sock.getInputStream();
-            FileOutputStream fos = new FileOutputStream(fileOutput);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, bytesRead);
-            bos.close();
-            sock.close();
-        } 
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-    }
 }
