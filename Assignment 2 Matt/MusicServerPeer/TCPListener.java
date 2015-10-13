@@ -39,7 +39,7 @@ public class TCPListener implements Runnable
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
                         
                     //if i comment all  below out, the above works
-                    /*String songFile = "songs/"+parts[1];
+                    String songFile = "songs/"+parts[1];
                     File myFile = new File(songFile);
                     byte[] mybytearray = new byte[(int) myFile.length()];
                     BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
@@ -47,7 +47,7 @@ public class TCPListener implements Runnable
                     OutputStream os = connectionSocket.getOutputStream();
                     os.write(mybytearray, 0, mybytearray.length);
                     os.flush();
-                    connectionSocket.close();    */        
+                    connectionSocket.close();           
                 }
             }
             serverSocket.close();

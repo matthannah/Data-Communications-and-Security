@@ -334,22 +334,23 @@ public class MusicServerPeer
     public void TCPRequestSong(String ip, String songRequested) {
         try 
         {
-            String message = "SendSong," + songRequested; 
+            String message = "SendSong," + songRequested +",\n"; 
             final String fileOutput = "songs/"+songRequested;
             BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));   
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());      
             outToServer.writeBytes(message);
+            //outToServer.flush();
             
             
-            /*byte[] mybytearray = new byte[1024];
+            byte[] mybytearray = new byte[1024];
             InputStream is = clientSocket.getInputStream();
             FileOutputStream fos = new FileOutputStream(fileOutput);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             int bytesRead = is.read(mybytearray, 0, mybytearray.length);
             bos.write(mybytearray, 0, bytesRead);
             bos.close();
-            clientSocket.close();*/
+            clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
         }
