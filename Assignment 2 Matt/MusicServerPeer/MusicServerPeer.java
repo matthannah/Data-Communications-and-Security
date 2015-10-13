@@ -342,8 +342,9 @@ public class MusicServerPeer
             BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));     
             outToServer.writeBytes(message);
             
+            //if i comment all below out, the above works
             //receive song
-            /*byte[] mybytearray = new byte[1024];
+            byte[] mybytearray = new byte[1024];
             int bytesRead;
             InputStream is = clientSocket.getInputStream();
             FileOutputStream fos = new FileOutputStream(fileOutput);
@@ -351,7 +352,7 @@ public class MusicServerPeer
             bytesRead = is.read(mybytearray, 0, mybytearray.length);
             bos.write(mybytearray, 0, bytesRead);
             bos.flush();
-            bos.close();*/
+            bos.close();
             clientSocket.close();
         } catch (Exception e) {
             System.out.println(e);
