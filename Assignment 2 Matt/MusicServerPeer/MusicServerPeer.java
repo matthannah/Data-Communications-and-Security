@@ -349,7 +349,7 @@ public class MusicServerPeer
             FileOutputStream fos = new FileOutputStream(fileOutput);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, mybytearray.length);
+            bos.write(mybytearray, 0, bytesRead);
             bos.flush();
             bos.close();
             clientSocket.close();

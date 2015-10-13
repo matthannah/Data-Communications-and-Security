@@ -25,7 +25,6 @@ public class TCPListener implements Runnable
         try //change this to do exception handling for each area that needs it
         {
             String message;
-            String capitalizedSentence;
             serverSocket = new ServerSocket(6789);
             while (listen)
             {
@@ -39,19 +38,16 @@ public class TCPListener implements Runnable
                     System.out.println("...\nSending song " + parts[1] + " to: " 
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
                     OutputStream outToPeer = connectionSocket.getOutputStream();
-                    if (outToPeer != null) 
-                    {
-                        File songFile = new File("songs/"+parts[1]); //could be wrong
-                        byte[] byteArray = new byte[(int) songFile.length()]; //cast long to int
-                        FileInputStream fis = new FileInputStream(songFile); //handle file not found exception???
-                        BufferedInputStream bis = new BufferedInputStream(fis);
-                        bis.read(byteArray, 0, byteArray.length);
-                        System.out.println("Sending...");
-                        outToPeer.write(byteArray, 0, byteArray.length);
-                        outToPeer.flush(); //what does this do??
-                        outToPeer.close(); 
-                        System.out.println("File sent size " + songFile.length()); 
-                    }
+                    File songFile = new File("songs/"+parts[1]); //could be wrong
+                    byte[] byteArray = new byte[(int) songFile.length()]; //cast long to int
+                    FileInputStream fis = new FileInputStream(songFile); //handle file not found exception???
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    bis.read(byteArray, 0, byteArray.length);
+                    System.out.println("Sending...");
+                    outToPeer.write(byteArray, 0, byteArray.length);
+                    outToPeer.flush(); //what does this do??
+                    outToPeer.close(); 
+                    System.out.println("File sent size " + songFile.length());                     
                 }
             }
             serverSocket.close();
