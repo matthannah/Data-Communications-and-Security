@@ -342,13 +342,19 @@ public class MusicServerPeer
             outToServer.writeBytes(message);
             //outToServer.flush();
             
-            
-            byte[] mybytearray = new byte[1024];
+            byte[] aByte = new byte[1];
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream is = clientSocket.getInputStream();
             FileOutputStream fos = new FileOutputStream(fileOutput);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, bytesRead);
+            int bytesRead = is.read(aByte, 0, aByte.length);
+            do 
+            {
+                baos.write(aByte);
+                bytesRead = is.read(aByte);         
+            } while (bytesRead != -1);
+            bos.write(baos.toByteArray());
+            bos.flush();
             bos.close();
             clientSocket.close();
         } catch (Exception e) {
