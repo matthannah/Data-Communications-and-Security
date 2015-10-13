@@ -10,6 +10,7 @@ public class TCPListener implements Runnable
 {
     private MusicServerPeer musicServerPeer;
     private ServerSocket serverSocket;
+    private ServerSocket servsock;
     private boolean listen = true;
     
     /**
@@ -26,9 +27,11 @@ public class TCPListener implements Runnable
         {
             String message;
             serverSocket = new ServerSocket(6789);
+            servsock = new ServerSocket(12345);
             while (listen)
             {
-                Socket connectionSocket = serverSocket.accept();             
+                Socket connectionSocket = serverSocket.accept();  
+                Socket sock = servsock.accept();
                 BufferedReader inFromPeer = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));                          
                 message = inFromPeer.readLine();
                 System.out.println("received TCP message");
@@ -38,7 +41,7 @@ public class TCPListener implements Runnable
                     System.out.println("...\nSending song " + parts[1] + " to: " 
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
                     String songFile = "songs/"+parts[1];
-                    sendSong(songFile);               
+                    sendSong(sock, songFile);               
                 }
             }
             serverSocket.close();
@@ -49,11 +52,9 @@ public class TCPListener implements Runnable
         }
     }
     
-    public void sendSong(String songFile) throws Exception
+    public void sendSong(Socket sock, String songFile) throws Exception
     {
-        ServerSocket servsock = new ServerSocket(12345);
         File myFile = new File(songFile);
-        Socket sock = servsock.accept();
         byte[] mybytearray = new byte[(int) myFile.length()];
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
         bis.read(mybytearray, 0, mybytearray.length);
