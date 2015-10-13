@@ -37,18 +37,8 @@ public class TCPListener implements Runnable
                     String parts[] = message.split(",");
                     System.out.println("...\nSending song " + parts[1] + " to: " 
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
-                        
-                    //if i comment all  below out, the above works
-                    File songFile = new File("songs/"+parts[1]);
-                    byte[] byteArray = new byte[(int) songFile.length()]; //cast long to int
-                    FileInputStream fis = new FileInputStream(songFile); //handle file not found exception???
-                    BufferedInputStream bis = new BufferedInputStream(fis);
-                    bis.read(byteArray, 0, byteArray.length);
-                    OutputStream outToPeer = connectionSocket.getOutputStream();
-                    System.out.println("Sending...");
-                    outToPeer.write(byteArray, 0, byteArray.length);
-                    outToPeer.flush(); //what does this do??
-                    System.out.println("File sent size: " + songFile.length() + " bytes");                  
+                    String songFile = "songs/"+parts[1];
+                    sendSong(songFile);               
                 }
             }
             serverSocket.close();
@@ -57,6 +47,20 @@ public class TCPListener implements Runnable
         {
             System.out.println(e);
         }
+    }
+    
+    public void sendSong(String songFile) throws Exception
+    {
+        ServerSocket servsock = new ServerSocket(12345);
+        File myFile = new File(songFile);
+        Socket sock = servsock.accept();
+        byte[] mybytearray = new byte[(int) myFile.length()];
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
+        bis.read(mybytearray, 0, mybytearray.length);
+        OutputStream os = sock.getOutputStream();
+        os.write(mybytearray, 0, mybytearray.length);
+        os.flush();
+        sock.close();
     }
 
     public void finish()
