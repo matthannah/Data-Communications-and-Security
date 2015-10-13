@@ -27,6 +27,7 @@ public class MusicServer
     {
         MusicServer server = new MusicServer();
         (new Thread(new UDPListener(server))).start();
+        System.out.println("Running...");
     }
     
     public PeerManager getPeerManager()

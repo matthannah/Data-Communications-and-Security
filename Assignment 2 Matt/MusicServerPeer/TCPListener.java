@@ -35,8 +35,8 @@ public class TCPListener implements Runnable
                 if (message.startsWith("SendSong"))
                 {
                     String parts[] = message.split(",");
-                    System.out.println("...\nSending song " + parts[1] + " to: " 
-                        + connectionSocket.getInetAddress().getHostName() + "\n...");
+                    System.out.println("Sending song " + parts[1] + " to: " 
+                        + connectionSocket.getInetAddress().getHostName() + "...");
                         
                     //if i comment all  below out, the above works
                     String songFile = "songs/"+parts[1];
@@ -47,7 +47,8 @@ public class TCPListener implements Runnable
                     OutputStream os = connectionSocket.getOutputStream();
                     os.write(mybytearray, 0, mybytearray.length);
                     os.flush();
-                    connectionSocket.close();           
+                    connectionSocket.close();  
+                    System.out.println("Song sent - size: " +mybytearray.length+"bytes");
                 }
             }
             serverSocket.close();

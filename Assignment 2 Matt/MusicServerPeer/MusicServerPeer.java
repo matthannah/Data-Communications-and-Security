@@ -194,7 +194,10 @@ public class MusicServerPeer
         {
             if (file.isFile()) 
             {
-                results.add(file.getName());
+                if (file.getName().endsWith(".mp3"))
+                {                   
+                    results.add(file.getName());
+                }
             }
         }
         return results;
@@ -340,7 +343,8 @@ public class MusicServerPeer
             Socket clientSocket = new Socket(ip, 6789);   
             DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());      
             outToServer.writeBytes(message);
-            //outToServer.flush();
+            
+            System.out.println("Receiving song...");
             
             byte[] aByte = new byte[1];
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -361,6 +365,7 @@ public class MusicServerPeer
             System.out.println(e);
         }
         System.out.println("Song transfer complete");
+        songs.add(songRequested);
+        notifyUpdateSongList();
     }
-    
 }
