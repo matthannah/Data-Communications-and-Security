@@ -1,6 +1,7 @@
 import java.io.*; 
 import java.net.*;
 import java.util.*;
+import java.awt.Desktop;
 /**
  * Write a description of class MusicServerPeer here.
  * 
@@ -150,7 +151,7 @@ public class MusicServerPeer
         switch (input) 
         {
             case 1: //play song
-                System.out.println("Option 1 selected");
+                playSong();
                 break;
             case 2: //show songs
                 requestSongList();
@@ -367,5 +368,62 @@ public class MusicServerPeer
         System.out.println("Song transfer complete");
         songs.add(songRequested);
         notifyUpdateSongList();
+    }
+    
+    public void playSong()
+    {
+        System.out.println("----- Enter the name of the song you'd like to play -----");
+        for (String song : songs)
+        {
+            System.out.println(song);
+        }
+        System.out.println("---------------------------------------------------------");
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        String input = "";
+        try
+        {
+            input = br.readLine();
+        }
+        catch (IOException e)
+        {
+            System.err.println(e);
+        }
+        boolean songExists = false;
+        for (String song : songs)
+        {
+            if (input.equals(song))
+            {
+                songExists = true;
+            }
+        }
+        if (songExists)
+        {
+            File f = new File("songs/"+input);
+            if (f.exists()) 
+            {
+                if (Desktop.isDesktopSupported()) 
+                {
+                    try
+                    {
+                        Desktop.getDesktop().open(f);
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println(e);
+                    }
+                } 
+     
+                else
+                {
+                    System.out.println("File does not exists!");
+                }
+ 
+            }
+        }
+        else 
+        {
+            System.out.println("Song name does not exist");
+        }
     }
 }
