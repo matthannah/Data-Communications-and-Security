@@ -48,7 +48,7 @@ public class TCPListener implements Runnable
                     System.out.println("Sending...");
                     outToPeer.write(byteArray, 0, byteArray.length);
                     outToPeer.flush(); //what does this do??
-                    System.out.println("File sent size " + songFile.length());                  
+                    System.out.println("File sent size: " + songFile.length() + " bytes");                  
                 }
             }
             serverSocket.close();
