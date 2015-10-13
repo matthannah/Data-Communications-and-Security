@@ -37,7 +37,7 @@ public class TCPListener implements Runnable
                     String parts[] = message.split(",");
                     System.out.println("...\nSending song " + parts[1] + " to: " 
                         + connectionSocket.getInetAddress().getHostName() + "\n...");
-                    OutputStream outToPeer = connectionSocket.getOutputStream();
+                    /*OutputStream outToPeer = connectionSocket.getOutputStream();
                     File songFile = new File("songs/"+parts[1]); //could be wrong
                     byte[] byteArray = new byte[(int) songFile.length()]; //cast long to int
                     FileInputStream fis = new FileInputStream(songFile); //handle file not found exception???
@@ -47,7 +47,7 @@ public class TCPListener implements Runnable
                     outToPeer.write(byteArray, 0, byteArray.length);
                     outToPeer.flush(); //what does this do??
                     outToPeer.close(); 
-                    System.out.println("File sent size " + songFile.length());                     
+                    System.out.println("File sent size " + songFile.length());*/                     
                 }
             }
             serverSocket.close();
