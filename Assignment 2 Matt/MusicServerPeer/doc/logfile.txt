@@ -1,0 +1,55 @@
+Class documentation
+<---- javadoc command: ---->
+/Applications/BlueJ.app/Contents/Frameworks/jdk.framework/Versions/A/Contents/Home/bin/javadoc
+-author
+-version
+-nodeprecated
+-package
+-noindex
+-notree
+-nohelp
+-nonavbar
+-source
+1.8
+-classpath
+/Applications/BlueJ.app/Contents/Resources/Java/bluejcore.jar:/Applications/BlueJ.app/Contents/Resources/Java/junit-4.8.2.jar:/Applications/BlueJ.app/Contents/Resources/Java/userlib/pi4j-core.jar:/Applications/BlueJ.app/Contents/Resources/Java/userlib/pi4j-device.jar:/Applications/BlueJ.app/Contents/Resources/Java/userlib/pi4j-gpio-extension.jar:/Applications/BlueJ.app/Contents/Resources/Java/userlib/pi4j-service.jar:/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer
+-d
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+/Applications/BlueJ.app/Contents/Resources/Java/bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java
+<---- end of javadoc command ---->
+Loading source file /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java...
+Constructing Javadoc information...
+Standard Doclet version 1.8.0_31
+Building tree for all the packages and classes...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/MusicServerPeer.html...
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:586: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:586: warning - @return tag cannot be used in method with void return type.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:440: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:440: warning - @return tag cannot be used in method with void return type.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:140: warning - @param argument "-" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:520: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:520: warning - @return tag cannot be used in method with void return type.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:485: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:485: warning - @return tag cannot be used in method with void return type.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:545: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:545: warning - @return tag cannot be used in method with void return type.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:429: warning - @param argument "y" is not a parameter name.
+/Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/MusicServerPeer.java:429: warning - @return tag cannot be used in method with void return type.
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/package-frame.html...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/package-summary.html...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/constant-values.html...
+Building index for all the packages and classes...
+Building index for all classes...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/allclasses-frame.html...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/allclasses-noframe.html...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/index.html...
+Generating /Users/matt/Uni/DCS/Assignment 2 Matt/MusicServerPeer/doc/stylesheet.css...
+13 warnings
