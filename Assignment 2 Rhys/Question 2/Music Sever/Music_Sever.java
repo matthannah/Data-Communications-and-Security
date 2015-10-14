@@ -313,6 +313,36 @@ public class Music_Sever
         return allSongs;
     }
     
+    /**
+     * Searches all peers for a particular song and then returns the address of a peer who has it
+     * 
+     * @param   songTitle   The title of a song that the client wants to download
+     * @return  String      The address of a client who has that song 
+     */
+    public String getSong(String songTitle)
+    {
+        //Used to store each of the peers list of songs as they are checked
+        ArrayList<String> peerSongsList = new ArrayList<>();
+        
+        //Loop through all the peers
+        for (Peer peer : peerList)
+        {
+            //Set the peer song list being checked equal to that peers song list
+            peerSongsList = peer.getSongList();
+            
+            //Check if the peer is online and if they have the song in thier song list 
+            if (peer.getOnline() & peerSongsList.contains(songTitle))
+            {
+                //Return the address of the peer, now that it's known they are online and have the song
+                return peer.getAddress();
+            }  
+        }
+        
+        //If it gets to this point it means that the song couldn't be found. In this case a string which will be
+        //recognised as such
+        return "notfound";
+    }
+    
     public static void main(String args[])
     {
         //Create a music sever

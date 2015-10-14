@@ -85,6 +85,16 @@ public class Message_Proccessor implements Runnable
             sendMessage = "NEWSONGS";
         }
         
+        //Checks if the message type is "GETSONG"
+        else if (messageType.equals("GETSONG"))
+        {
+            //Creates a string to store the address of a peer who has that song
+            String peerAddress = musicServer.getSong(message);
+            
+            //Create a reply for the client with the address of a peer who has the song they want
+            sendMessage = "GETSONG" + peerAddress;
+        }
+        
         //Checks if the message type is "GETALL"
         else if (messageType.equals("GETALL"))
         {
