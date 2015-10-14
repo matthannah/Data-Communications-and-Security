@@ -324,6 +324,9 @@ public class Music_Sever
         //Used to store each of the peers list of songs as they are checked
         ArrayList<String> peerSongsList = new ArrayList<>();
         
+        //A string containing the addresses of all peers who have the song
+        String addresses = "";
+        
         //Loop through all the peers
         for (Peer peer : peerList)
         {
@@ -333,14 +336,21 @@ public class Music_Sever
             //Check if the peer is online and if they have the song in thier song list 
             if (peer.getOnline() & peerSongsList.contains(songTitle))
             {
-                //Return the address of the peer, now that it's known they are online and have the song
-                return peer.getAddress();
+                //Creates a string to hold a list of all the songs
+                addresses = addresses + "-" + peer.getAddress();
             }  
         }
         
-        //If it gets to this point it means that the song couldn't be found. In this case a string which will be
-        //recognised as such
-        return "notfound";
+        //If it gets to this point and the string is empty it means that the song couldn't be found. In this 
+        //case it is instead made a string which will be recognised as such
+        if (addresses.equals(""))
+        {
+            //Set addresses to show that the song couldn't be found
+            addresses = "notfound";
+        }
+        
+        //return either a list of addresses or a "notfound" as a string
+        return addresses;
     }
     
     public static void main(String args[])
