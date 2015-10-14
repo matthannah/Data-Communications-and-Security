@@ -1,15 +1,20 @@
 #BlueJ class context
 comment0.params=
 comment0.target=PeerManager()
-comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ PeerManager\r\n
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ PeerManager\n
 comment1.params=
 comment1.target=java.util.ArrayList\ getPeerList()
+comment1.text=\n\ getPeerList\n\ \n\ @return\ -\ ArrayList<Peer>\ -\ a\ list\ of\ peers\ that\ have\ come\ online\n
 comment2.params=ip
 comment2.target=Peer\ getPeer(java.lang.String)
+comment2.text=\n\ getPeer\ \ -\ returns\ a\ peer\ given\ a\ specific\ ip;\ returns\ null\ if\ the\ peer\ doesn't\ exist\n\ \n\ @param\ \ \ -\ String\ ip\ -\ the\ ip\ of\ the\ peer\ requested\n\ \n\ @return\ \ -\ Peer\ -\ the\ peer\ object\n
 comment3.params=ip
 comment3.target=boolean\ peerExists(java.lang.String)
+comment3.text=\n\ peerExists\ \ -\ checks\ if\ the\ peer\ exists\n\ \n\ @param\ \ \ \ \ \ -\ String\ ip\ -\ the\ ip\ of\ the\ peer\ requested\n\ \n\ @return\ \ \ \ \ -\ boolean\ -\ true;\ if\ the\ peer\ exists,\ false;\ if\ the\ peer\ does\ not\ exist\n
 comment4.params=peer
 comment4.target=void\ addPeer(Peer)
+comment4.text=\n\ addPeer\ \ \ \ \ -\ adds\ a\ peer\ to\ the\ peer\ list\n\ \n\ @param\ \ \ \ \ \ -\ Peer\ peer\ -\ the\ peer\ to\ add\ to\ the\ list\n
 comment5.params=songRequested
 comment5.target=java.util.ArrayList\ getSongOwnerList(java.lang.String)
+comment5.text=\n\ getSongOwnerList\ -\ gets\ a\ list\ of\ ips\ of\ all\ peers\ that\ have\ a\ song\n\ \n\ @param\ \ \ \ \ \ \ \ \ \ \ -\ String\ songRequested\ -\ the\ song\ to\ be\ checked\n\ \n\ @return\ \ \ \ \ \ \ \ \ \ -\ ArrayList<String>\ -\ list\ containing\ the\ ips\ of\ all\ peers\ who\ had\ the\ song\n
 numComments=6

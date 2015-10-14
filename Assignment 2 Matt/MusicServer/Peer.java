@@ -1,13 +1,12 @@
 import java.util.*;
 /**
- * Write a description of class Peer here.
+ * Peer - the peer object containing all necessary information about a peer
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Matthew Hannah
+ * @version 14/10/2015
  */
 public class Peer
 {
-    // instance variables - replace the example below with your own
     private String ip;
     private ArrayList<String> songs;
 
@@ -21,35 +20,54 @@ public class Peer
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * getIP
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * @return     String ip - the ip of the peer
      */
     public String getIP()
     {
         return ip;
     }
     
+    /**
+     * getISongList
+     * 
+     * @return     ArrayList<String> songs - the peers song list
+     */
     public ArrayList<String> getSongList()
     {
         return songs;
     }
     
+    /**
+     * addSong - adds the song to the peers list
+     * 
+     * @param  - String song - the song to add
+     */
     public void addSong(String song)
     {
         songs.add(song);
     }
     
+    /**
+     * hasSong - checks if the peer has the song specified
+     * 
+     * @param  - String songRequested - the song to check
+     * @return - whether or not the peer has the song (yes = true, no = false)
+     */
     public boolean hasSong(String songRequested)
     {
+        //loops through the songs
         for (String song : songs)
         {
+            //if the peer has the song requested
             if (song.equals(songRequested))
             {
+                //return true; the peer has the song
                 return true;
             }
         }
+        //return false; the peer does not have the song
         return false;
     }
 }

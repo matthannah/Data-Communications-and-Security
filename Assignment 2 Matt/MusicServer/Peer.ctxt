@@ -1,14 +1,17 @@
 #BlueJ class context
 comment0.params=address
 comment0.target=Peer(java.lang.String)
-comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Peer\r\n
+comment0.text=\n\ Constructor\ for\ objects\ of\ class\ Peer\n
 comment1.params=
 comment1.target=java.lang.String\ getIP()
-comment1.text=\r\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\r\n\ \r\n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\r\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \r\n
+comment1.text=\n\ getIP\n\ \n\ @return\ \ \ \ \ String\ ip\ -\ the\ ip\ of\ the\ peer\n
 comment2.params=
 comment2.target=java.util.ArrayList\ getSongList()
+comment2.text=\n\ getISongList\n\ \n\ @return\ \ \ \ \ ArrayList<String>\ songs\ -\ the\ peers\ song\ list\n
 comment3.params=song
 comment3.target=void\ addSong(java.lang.String)
+comment3.text=\n\ addSong\ -\ adds\ the\ song\ to\ the\ peers\ list\n\ \n\ @param\ \ -\ String\ song\ -\ the\ song\ to\ add\n
 comment4.params=songRequested
 comment4.target=boolean\ hasSong(java.lang.String)
+comment4.text=\n\ hasSong\ -\ checks\ if\ the\ peer\ has\ the\ song\ specified\n\ \n\ @param\ \ -\ String\ songRequested\ -\ the\ song\ to\ check\n\ @return\ -\ whether\ or\ not\ the\ peer\ has\ the\ song\ (yes\ \=\ true,\ no\ \=\ false)\n
 numComments=5

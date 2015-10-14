@@ -1,24 +1,23 @@
 import java.util.*;
 import java.io.*;
 /**
- * Write a description of class SongFileWriter here.
+ * SongFileWriter
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Matthew Hannah
+ * @version 14/10/2015
  */
 public class SongFileWriter
 {
-    ArrayList<String> songs;
 
     /**
      * Constructor for objects of class SongFileWriter
      */
-    public SongFileWriter(ArrayList<String> songs)
+    public SongFileWriter()
     {
-        this.songs = songs;
+
     }
 
-    public void write()
+    synchronized public void write(ArrayList<String> songs)
     {
         PrintWriter myOutput;
         try

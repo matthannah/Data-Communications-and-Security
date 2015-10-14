@@ -1,9 +1,9 @@
 import java.util.*;
 /**
- * Write a description of class PeerManager here.
+ * Peer Manager - managers all peers online
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Matthew Hannah
+ * @version 14/10/2015
  */
 public class PeerManager
 {
@@ -17,51 +17,97 @@ public class PeerManager
         peers = new ArrayList<Peer>();
     }
 
+    /**
+     * getPeerList
+     * 
+     * @return - ArrayList<Peer> - a list of peers that have come online
+     */
     public ArrayList<Peer> getPeerList()
     {
         return peers;
     }
     
+    /**
+     * getPeer  - returns a peer given a specific ip; returns null if the peer doesn't exist
+     * 
+     * @param   - String ip - the ip of the peer requested
+     * 
+     * @return  - Peer - the peer object
+     */
     public Peer getPeer(String ip)
-    {
-        for (int i = peers.size(); i > 0; i--)
+    { 
+        //loop through the peers array list
+        for (Peer peer : peers)
         {
-            if (peers.get(i-1).getIP().equals(ip))
+            //if a peer has an IP equal to the ip entered as an argument to the method
+            if (peer.getIP().equals(ip))
             {
-                return peers.get(i-1);
+                //return the peer
+                return peer;
             }
         }
+        //return null if no peer was found
         return null;
     }
     
+    /**
+     * peerExists  - checks if the peer exists
+     * 
+     * @param      - String ip - the ip of the peer requested
+     * 
+     * @return     - boolean - true; if the peer exists, false; if the peer does not exist
+     */
     public boolean peerExists(String ip)
     {
-        for (int i = peers.size(); i > 0; i--)
+        //loop through peers in peer list
+        for (Peer peer : peers)
         {
-            if (peers.get(i-1).getIP().equals(ip))
+            //if a peer has an IP equal to the ip entered as an argument to the method
+            if (peer.getIP().equals(ip))
             {
+                //return true; meaning the peer exists
                 return true;
             }
         }
+        //return false; meaning the peer does not exist
         return false;
     }
     
+    /**
+     * addPeer     - adds a peer to the peer list
+     * 
+     * @param      - Peer peer - the peer to add to the list
+     */
     synchronized public void addPeer(Peer peer)
     {
+        //print a message saying a peer has been added
         System.out.println("Peer added: " + peer.getIP());
+        //add the peer to the list
         peers.add(peer);
     }
     
+    /**
+     * getSongOwnerList - gets a list of ips of all peers that have a song
+     * 
+     * @param           - String songRequested - the song to be checked
+     * 
+     * @return          - ArrayList<String> - list containing the ips of all peers who had the song
+     */
     public ArrayList<String> getSongOwnerList(String songRequested)
     {
+        //create a new string array list object
         ArrayList<String> ips = new ArrayList<String>();
-        for (Peer peer : this.peers)
+        //loop through all peers
+        for (Peer peer : peers)
         {
+            //if a peer has the song requested
             if (peer.hasSong(songRequested))
             {
+                //add the peers ip to the list
                 ips.add(peer.getIP());
             }
         }
+        //return the array list of all peer ips who had the song
         return ips;
     }
 }

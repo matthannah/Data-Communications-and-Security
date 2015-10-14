@@ -44,7 +44,7 @@ public class UDPMessageHandler implements Runnable
                 {
                     System.out.println(peer.getSongList().get(i-1));
                 }            
-                (new SongFileWriter(peer.getSongList())).write();
+                server.getSongFileWriter().write(peer.getSongList());
             }
         }
         if(message.startsWith("Song"))
@@ -92,8 +92,8 @@ public class UDPMessageHandler implements Runnable
                 for (int i = peer.getSongList().size(); i > 0; i--)
                 {
                     System.out.println(peer.getSongList().get(i-1));
-                }            
-                (new SongFileWriter(peer.getSongList())).write();
+                }        
+                server.getSongFileWriter().write(peer.getSongList());
             }
         }
         if(message.startsWith("List"))

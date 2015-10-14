@@ -1,13 +1,14 @@
 import java.util.*;
 /**
- * Write a description of class MusicServer here.
+ * Music Server - management of peers and processes UDP requests/responses
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Matthew Hannah
+ * @version 14/10/2015
  */
 public class MusicServer
 {
     PeerManager peerManager;
+    SongFileWriter songFileWriter;
 
     /**
      * Constructor for objects of class MusicServer
@@ -15,13 +16,12 @@ public class MusicServer
     public MusicServer()
     {
         peerManager = new PeerManager();
+        songFileWriter = new SongFileWriter();
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * main -   starts the server
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
      */
     public static void main(String args[])
     {
@@ -30,8 +30,23 @@ public class MusicServer
         System.out.println("Running...");
     }
     
+    /**
+     * getPeerManager -     gets the peer manager
+     * 
+     * @return -            PeerManager - returns the peer manager
+     */
     public PeerManager getPeerManager()
     {
         return peerManager;
+    }  
+    
+    /**
+     * getSongFileWriter -  gets the song file writer
+     * 
+     * @return -            SongFileWriter - returns the song file writer
+     */
+    public SongFileWriter getSongFileWriter()
+    {
+        return songFileWriter;
     }    
 }
