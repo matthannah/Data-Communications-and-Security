@@ -14,196 +14,374 @@ public class MusicServerPeer
     private boolean running = true;
     private String serverIP;
     private TCPListener tcpListener;
+    private int serverPort = 9876;
     
     /**
      * Constructor for objects of class MusicServerPeer
      */
     public MusicServerPeer()
     {
+        //create a new array list object of strings
         songs = new ArrayList<String>();
     }
 
     public static void main(String args[])  
     { 
+        //create a new musicServerPeer object
         MusicServerPeer peer = new MusicServerPeer();
+        ///create a new TCPListener object and pass it a reference to this class
         peer.tcpListener = new TCPListener(peer);
+        //start the thread tcp listener (this class implements runnable)
         new Thread(peer.tcpListener).start();
+        //get the music servers ip from the user, entered as an argument when starting the program
         peer.serverIP = args[0];
+        //update the peers song list
         peer.updateSongList();
+        //register the peer with the server
         peer.register();
-        while(peer.isRunning())
+        while(peer.running)
         {
+            //while the program is running show the menu to the user
             peer.menu();
         }
     } 
     
-    public ArrayList<String> getSongList()
-    {
-        return songs;
-    }
-    
+    /**
+     * Register -   notifies the music server that the peer is online; aswell as sending
+     *              the song list with it
+     * 
+     */
     public void register()
     {
-        try {
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
-            DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName(serverIP);       
-            byte[] sendData = new byte[1024];            
-            String sentence = "Online," + songs.size();       
-            for (int i = songs.size(); i > 0; i--)
-            {
-                sentence = sentence + "," + songs.get(i - 1);
-            }
-            sendData = sentence.getBytes(); 
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);       
+        //socket for sending and receiving datagram packets
+        DatagramSocket clientSocket;
+        //datagram packet for connectionless packet delivery (udp)
+        DatagramPacket sendPacket;
+        //internet protocol address
+        InetAddress IPAddress;         
+        //new byte array object of size 1024 bytes (1kB)
+        byte[] sendData = new byte[1024];            
+        //message that contains the data to be sent
+        String message = "Online," + songs.size();   
+        //loop through all the strings in the songs array list
+        for (String song : songs) 
+        {
+            //add each song string to the message 
+            message = message + "," + song;
+        }
+        //set the sendData byte array equal to the message string converted to bytes
+        sendData = message.getBytes(); 
+        //enclose code that might throw an exception in a try block
+        try 
+        { 
+            //set the ip equal to the server IP entered by the user converted to a InetAddress object
+            IPAddress = InetAddress.getByName(serverIP);
+            //create a new datagram socket object
+            clientSocket = new DatagramSocket(); 
+            //create a new datagram packet object, contrcuted by passing the arguments:
+            //sendData - the byte array of the message to be sent
+            //sendData.length - number of bytes in the message
+            //IPAddress - ip of the server
+            //serverPort - port number of the server
+            sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, serverPort);
+            //send the datagram packet along the connectionless client socket to the server
             clientSocket.send(sendPacket);  
+            //close the client socket
             clientSocket.close(); 
         }
-        catch (Exception e)
+        //enclose exception handling code in a catch block
+        catch (IOException e)
         {
-            System.err.println(e);
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
         }
     }
     
+    /**
+     * selectSong -     receive input from the user asking for a song to be requested
+     * 
+     * @return -        String input - the input from the user entered via System.in
+     */
     public String selectSong()
     {
+        //create a new input stream reader which converts bytes entered by the user
+        //at the command line, and convertes these bytes into chracters
         InputStreamReader isr = new InputStreamReader(System.in);
+        //wrap the input stream reader in a buffered reader which reads from the
+        //character stream and buffers characters into readable strings
         BufferedReader br = new BufferedReader(isr);
-        String input;
+        //string that will hold the users input entered
+        String input = "";
+        System.out.println("Enter the song you would like to transfer: ");
+        //enclose code that might throw an exception in a try block
         try
         {
-            System.out.println("Find peer with the song: ");
+            //use the buffered readers method read line to read a line of text
+            //which is then set equal to the string input; a line of text is one that
+            //end in a '\n' (in the users cae pressing the carriage return key)
             input = br.readLine();
-            return input;
         }
+        //enclose exception handling code in a catch block
         catch (IOException e)
         {
-            System.err.println(e);
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
         }
-        return null;
+        //return the input string
+        return input;
     }
     
-    public String requestPeerWithSong(String song)
-    {
+    /**
+     * requestPeersWithSong -   asks the server what peers have the a specific song
+     * 
+     * @param -                 String song - song to be sent
+     * @return -                String ips - all the peers ip who have the song 
+     */
+    public String requestPeersWithSong(String song)
+    {    
+        //socket for sending and receiving datagram packets
+        DatagramSocket clientSocket;   
+        //datagram packet for connectionless packet delivery (udp)
+        DatagramPacket sendPacket;
+        //datagram packet for connectionless packet delivery (udp)
+        DatagramPacket receivePacket;
+        //internet protocol address
+        InetAddress IPAddress; 
+        //new byte array object of size 1024 bytes (1kB)         
+        byte[] sendData = new byte[1024];      
+        //new byte array object of size 1024 bytes (1kB) 
+        byte[] receiveData = new byte[1024]; 
+        //message that contains the data to be sent
+        String message = "Song," + song;
+        //set the sendData byte array equal to the message string converted to bytes
+        sendData = message.getBytes();  
+        //String ips currently equal to 0, that is, there is no peers with the song
+        //requested currently
+        String ips = "0";
+        //enclose code that might throw an exception in a try block
         try
         {
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
-            DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName(serverIP);       
-            byte[] data = new byte[1024];       
-            byte[] receiveData = new byte[1024]; 
-            song = "Song," + song;
-            data = song.getBytes();       
-            DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, 9876);       
-            clientSocket.send(sendPacket);       
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);       
-            clientSocket.receive(receivePacket);       
-            String ip = new String(receivePacket.getData());       
-            System.out.println("FROM SERVER:" + ip);       
+            //set the ip equal to the server IP entered by the user converted to a InetAddress object
+            IPAddress = InetAddress.getByName(serverIP);
+            //create a new datagram socket object
+            clientSocket = new DatagramSocket();
+            //create a new datagram packet object, contrcuted by passing the arguments:
+            //sendData - the byte array of the message to be sent
+            //sendData.length - number of bytes in the message
+            //IPAddress - ip of the server
+            //serverPort - port number of the server
+            sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, serverPort);   
+            //send the datagram packet along the connectionless client socket to the server
+            clientSocket.send(sendPacket);   
+            //create a new datagram packet object, contrcuted by passing the arguments:
+            //receiveData - the byte array of the message to be received
+            //receiveData.length - the number of the bytes in the message
+            receivePacket = new DatagramPacket(receiveData, receiveData.length);   
+            //receive the datagram packet along the connectionless client socket from the server
+            clientSocket.receive(receivePacket); 
+            //set the ips string equal to the data received from the server
+            ips = new String(receivePacket.getData());
+            //close the client socket
             clientSocket.close();
-            return ip;
-        }
-        catch (Exception e)
+        }   
+        //enclose exception handling code in a catch block
+        catch (IOException e)
         {
-            System.err.println(e);
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
         }
-        return null;
+        //print a message to the user - substring is used to get the first charcter of the message
+        //message syntax as defined is as follows: number of ips then ips seperated by commas
+        //example: 3,192.168.52.1,192.168.56.32,192.168.52.12 
+        //3 ips, with each seperated by commas
+        System.out.println(ips.substring(0, 1) + " peers have the song requested");   
+        //return the ips message received from the server
+        return ips;
     }
     
+    /**
+     * notifyUpdateSongList -   notifies the server the peer has updated its song list
+     * 
+     */
     public void notifyUpdateSongList()
     {
-        try {
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));       
-            DatagramSocket clientSocket = new DatagramSocket();       
-            InetAddress IPAddress = InetAddress.getByName(serverIP);       
-            byte[] sendData = new byte[1024];            
-            String sentence = "Update," + songs.size();       
-            for (int i = songs.size(); i > 0; i--)
-            {
-                sentence = sentence + "," + songs.get(i - 1);
-            }
-            sendData = sentence.getBytes(); 
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 9876);       
+        //socket for sending and receiving datagram packets
+        DatagramSocket clientSocket;
+        //datagram packet for connectionless packet delivery (udp)
+        DatagramPacket sendPacket;
+        //internet protocol address
+        InetAddress IPAddress;         
+        //new byte array object of size 1024 bytes (1kB)
+        byte[] sendData = new byte[1024];      
+        //message that contains the data to be sent
+        String message = "Update," + songs.size();       
+        //loop through all the strings in the songs array list
+        for (String song : songs) 
+        {
+            //add each song string to the message 
+            message = message + "," + song;
+        }
+        //set the sendData byte array equal to the message string converted to bytes
+        sendData = message.getBytes(); 
+        //enclose code that might throw an exception in a try block
+        try 
+        { 
+            //set the ip equal to the server IP entered by the user converted to a InetAddress object
+            IPAddress = InetAddress.getByName(serverIP);
+            //create a new datagram socket object
+            clientSocket = new DatagramSocket(); 
+            //create a new datagram packet object, contrcuted by passing the arguments:
+            //sendData - the byte array of the message to be sent
+            //sendData.length - number of bytes in the message
+            //IPAddress - ip of the server
+            //serverPort - port number of the server
+            sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, serverPort);
+            //send the datagram packet along the connectionless client socket to the server
             clientSocket.send(sendPacket);  
+            //close the client socket
             clientSocket.close(); 
         }
-        catch (Exception e)
-        {
-            System.err.println(e);
-        }
-    }
-    
-    public void menu()
-    {
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-        int input = 0;
-        try
-        {
-            System.out.println("Select functionality: ");
-            System.out.println("1: Play Song | 2: Show Songs | 3: Request Song | 4: Add Song | 5: Remove Song | 6: Exit");
-            input = Integer.valueOf(br.readLine());
-        }
+        //enclose exception handling code in a catch block
         catch (IOException e)
         {
-            System.err.println(e);
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
         }
+    }
+    
+    /**
+     * menu -   The user menu which allows the user to execute several functions
+     *          of the program
+     * 
+     */
+    public void menu()
+    {
+        //create a new input stream reader which converts bytes entered by the user
+        //at the command line, and convertes these bytes into chracters
+        InputStreamReader isr = new InputStreamReader(System.in);
+        //wrap the input stream reader in a buffered reader which reads from the
+        //character stream and buffers characters into readable strings
+        BufferedReader br = new BufferedReader(isr);
+        //int that will hold the users input entered
+        int input = 0;
+        //print the menu to assist the user in executing program functionality
+        System.out.println("Select functionality: ");
+        System.out.println("1: Play Song | 2: Show Songs | 3: Request Song | 4: Add Song | 5: Remove Song | 6: Exit");
+        //enclose code that might throw an exception in a try block
+        try
+        {
+            //use the buffered readers method read line to read a line of text
+            //which is then cast to an int and set equal to the input; a line of text is one that
+            //end in a '\n' (in the users cae pressing the carriage return key)
+            input = Integer.valueOf(br.readLine());
+        }
+        //enclose exception handling code in a catch block
+        catch (IOException e)
+        {
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
+        }
+        //switch statement for different values of input
         switch (input) 
         {
-            case 1: //play song
+            //Play Song functionality
+            case 1:
+                //play song method
                 playSong();
                 break;
-            case 2: //show songs
+            //Show Songs functionality
+            case 2:
+                //requestSongList method
                 requestSongList();
                 break;
-            case 3: //request song
+            //Request Song functionality
+            case 3:
+                //requestSong method
                 requestSong();
                 break;
-            case 4: //Add Song
+            //Add Song functionality
+            case 4:
+                //addSong method
                 addSong();
                 break;
-            case 5: //Remove Song
+            //Remove Song functionality
+            case 5:
+                //removeSong method
                 removeSong();
                 break;
+            //Exit functionality
             case 6:
-                //maybe add in unregister()
-                System.out.println("Exiting...");
+                //exit method
                 exit();
                 break;
+            //Do nothing
             default:
-                //do nothing
         }
     }
-    
-    public boolean isRunning()
-    {
-        return running;
-    }
-    
+
+    /**
+     * exit -   ends the program
+     * 
+     */
     public void exit()
     {
+        //print exiting message to the user
+        System.out.println("Exiting...");
+        //finish the tcp listener thread
         tcpListener.finish();
+        //set the running boolean to false
         running = false;
     }
     
+    /**
+     * getSongsFromFile -   gets all the mp3 files in the song directory
+     * 
+     * @return -            ArrayList<String> - a string list of all the songs in the songs directory
+     */
     public ArrayList<String> getSongsFromFile()
     {
+        //create a new array list object of strings
         ArrayList<String> results = new ArrayList<String>();  
-        File[] files = new File("songs").listFiles();
-        //If this pathname does not denote a directory, then listFiles() returns null.        
-        for (File file : files) 
+        //create a new File object equal to the directory name songs
+        File songsDir = new File("songs");
+        //check whether the songs directory exists
+        if (songsDir.exists())
         {
-            if (file.isFile()) 
+            //create an array of files use the method listFiles to return an array
+            //of files in the songs directory
+            File[] files = songsDir.listFiles();
+            //If this pathname does not denote a directory, then listFiles() returns null.  
+            //loop through the array of Files
+            for (File file : files) 
             {
-                if (file.getName().endsWith(".mp3"))
-                {                   
-                    results.add(file.getName());
+                //checks whether the pathname is a file or a directory; true if file
+                if (file.isFile()) 
+                {
+                    //checks whether the file is a song file (ending with .mp3)
+                    if (file.getName().endsWith(".mp3"))
+                    {                   
+                        //add the files name to the results
+                        results.add(file.getName());
+                    }
                 }
             }
         }
+        else
+        {
+            //the songs directory does not exist, therefore create the directory
+            //for future use using the method mkdir
+            songsDir.mkdir();
+        }
+        //return the string array list of files found in the song directory
         return results;
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void addSong()
     {
         InputStreamReader isr = new InputStreamReader(System.in);
@@ -243,16 +421,28 @@ public class MusicServerPeer
         }
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void updateSongList()
     {
         songs = getSongsFromFile();
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void removeSong()
     {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        Integer numberOfSongs = getSongList().size();
+        Integer numberOfSongs = songs.size();
         String input = "c";
         try
         {
@@ -267,11 +457,11 @@ public class MusicServerPeer
         if (!input.equals("c"))
         {
             updateSongList();
-            if(numberOfSongs<getSongList().size())
+            if(numberOfSongs<songs.size())
             {
                 System.out.println("Perhaps you meant to add a song?");
             }
-            else if(numberOfSongs>getSongList().size())
+            else if(numberOfSongs>songs.size())
             {
                 System.out.println("Song removed - notifying server");
                 notifyUpdateSongList();
@@ -287,6 +477,12 @@ public class MusicServerPeer
         }
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void requestSongList()
     {
         try {
@@ -316,10 +512,16 @@ public class MusicServerPeer
         }
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void requestSong()
     {
         String songRequested = selectSong(); //ask the peer what song they would like
-        String message = requestPeerWithSong(songRequested); //ask the server what peers have the song
+        String message = requestPeersWithSong(songRequested); //ask the server what peers have the song
         if (!message.startsWith("0"))
         {
             String parts[] = message.split(",");
@@ -335,6 +537,12 @@ public class MusicServerPeer
         }
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void TCPRequestSong(String ip, String songRequested) {
         try 
         {
@@ -370,6 +578,12 @@ public class MusicServerPeer
         notifyUpdateSongList();
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     * 
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y 
+     */
     public void playSong()
     {
         System.out.println("----- Enter the name of the song you'd like to play -----");
