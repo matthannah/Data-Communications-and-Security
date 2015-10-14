@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=msg\ ms
+comment0.target=Message_Proccessor(java.net.DatagramPacket,\ Music_Sever)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Message_Proccessor.\ Sets\ the\ packet\ that\ was\ given.\ Also\ sets\ the\r\n\ music\ server\ to\ be\ a\ refference\ to\ the\ systems\ music\ sever\r\n\ \r\n\ @param\ \ \ \ \ \ \ Music_Sever\r\n\ @return\ \ \ \ \ \ Message_Proccessor\r\n
+comment1.params=
+comment1.target=void\ run()
+comment1.text=\r\n\ Implementation\ of\ runnables\ run\ function.\ Tells\ the\ music\ server\ what\ actions\ need\ to\ be\ undertaken\ given\r\n\ the\ message\ that\ was\ received\r\n\ \r\n\ @param\ \ \ \ \ \ \ void\r\n\ @return\ \ \ \ \ \ void\r\n
+numComments=2

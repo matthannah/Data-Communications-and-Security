@@ -2,7 +2,6 @@ import java.util.concurrent.*;
 import java.util.*;
 import java.net.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileReader;
@@ -13,8 +12,8 @@ import java.io.BufferedReader;
  * song. It is also responsible for providing clients with a address to connect
  * to when they request songs.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Rhys Hill
+ * @version 1.0
  */
 public class Music_Sever
 {
@@ -26,8 +25,15 @@ public class Music_Sever
           
     //The name of the file which holds the peers the sever knows about. This never changes
     private String fileName;
-    // instance variables - replace the example below with your own
     
+    /**
+     * The constructor for the Music_sever class. Sets up the peer list as a new Array List
+     * and then sets fileName to the text file used to store peers. This is always the same
+     * which is why is can be set here. It then updates the peer list based on its file.
+     * 
+     * @param       void
+     * @return      Music_Sever 
+     */
     public Music_Sever()
     {
         //Create a new array list to store all of the peers the sever knows about
@@ -41,10 +47,12 @@ public class Music_Sever
     }
     
     /**
-     * An example of a method - replace this comment with your own
+     * Reads form file the list of peers that the server knows about and adds them to it's array list
+     * which is used to keep track of peers through the program. Also establishes a connection to, or creates
+     * if it's not present, the peer list text file.
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * @param       void
+     * @return      void 
      */
     public void updatePeerListFile()
     {
@@ -64,7 +72,7 @@ public class Music_Sever
                 Peer p = new Peer(line);
                 
                 //Checks if that peer is already in the list
-                if (!peerList.contains(p))
+                if (!hasPeer(p))
                 {
                     //Adds the peer to the list
                     peerList.add(p);
@@ -115,10 +123,204 @@ public class Music_Sever
         }
     }
     
+    /**
+     * Checks to see if the peer list already contains a peer with the same name.
+     * 
+     * @param       p           A newly created peer that will potentially be added to the peer list
+     * @return      Boolean     A true false value to represent whether or not that peer name is listed  
+     */
+    public Boolean hasPeer (Peer peer)
+    {
+        //Loop goes through evry peer already in the peer list
+        for (Peer p : peerList)
+        {
+            //Checks to see if the name of the next peer in the list matches the name of the peer being checked
+            if (p.getName().equals(peer.getName()))
+            {
+                //Return true to say that the peer is already in the list
+                return true;
+            }
+        }
+        
+        //If this function completes the above loop it returns false to say that the peer is not yet in the list
+        return false;
+    }
+    
+    /**
+     * Searches the peer list for a particular peer
+     * 
+     * @param       peer    The name of a peer with in system
+     * @return      Peer    The peer object for the peer with the searched for name    
+     */
+    public Peer getPeer(String peerName)
+    {
+        //Loop goes through evry peer already in the peer list
+        for (Peer p : peerList)
+        {
+            //Checks to see if the name of the next peer in the list matches the name of the peer being checked
+            if (p.getName().equals(peerName))
+            {
+                //Return the peer
+                return p;
+            }
+        }
+        
+        //return some peer. Should never be reached
+        return peerList.get(0);
+    }
+    
+    /**
+     * Searches the peer list for a particular peer based on its address 
+     * 
+     * @param       peer    The address of a peer with the system
+     * @return      Peer    The peer object for the peer with the searched for address    
+     */
+    public Peer getPeerByAddress(String peerAddress)
+    {
+        //Loop goes through evry peer already in the peer list
+        for (Peer p : peerList)
+        {
+            //Checks to see if the name of the next peer in the list matches the name of the peer being checked
+            if (p.getAddress().equals(peerAddress))
+            {
+                //Return the peer
+                return p;
+            }
+        }
+        
+        //return some peer. Should never be reached
+        return peerList.get(0);
+    }
+    
+    /**
+     * Checks if a peer is already know and if so sets them thier online to true. If not it gives them a new
+     * name, adds it to the peer list. Then returns the name and listening port for that peer. 
+     * 
+     * @param   currentPeerName The suggested name of a peer. If it is unnamed this function will make a name 
+     * @return  String          A true false value to represent whether or not that peer name is listed  
+     */
+    public String peerOnline(String currentPeerName, String address)
+    {
+        //Stores either the name of the peer given or the new unique name found
+        String newName = "";
+        
+        //Checks to see if the peer is already know
+        if (currentPeerName.equals("unnamed"))
+        {  
+            //Whether or not a unique name has been found for the peer
+            Boolean uniqueName = false;
+        
+            //A counter which forms the end of a peers name
+            int i = 0;
+            
+            //Loops until a unique name is found
+            while (!uniqueName)
+            {
+                //Create a new peer based on the counter
+                Peer p = new Peer("peer" + i + ".txt");
+                
+                //Checks if that peer is already in the list
+                if (!hasPeer(p))
+                {
+                    //Adds the peer to the list
+                    peerList.add(p);
+                    
+                    //Update the peer list
+                    updatePeerListFile();
+                    
+                    //Says that a unique name has been found
+                    uniqueName = true;
+                    
+                    //Sets the peer name
+                    newName = "peer" + i + ".txt";
+                }
+                
+                //Increment the counter
+                i++;
+            }
+        }
+        //If peer already has a name
+        else
+        {
+            //Sets the peer name
+            newName = currentPeerName;
+        }
+               
+        //Get a refference to the peer in question
+        Peer peer = getPeer(newName);
+        
+        //Flag as online
+        peer.setOnline(true);
+        
+        //Set the address
+        peer.setAddress(address);
+        
+        //Return the new name of the peer. This will be the same as what was given for known peers
+        return newName;
+    }
+    
+    /**
+     * Tells the message listener whether or not it should keep listening
+     * 
+     * @param   void 
+     * @return  Boolean     Whether or not the message listener should keep listening  
+     */
+    public Boolean listen()
+    {
+        //Always returns true. This is so that the message listener keeps waiting for new messages
+        return true;
+    }
+
+    /**
+     * Generates and returns a list of all the available songs
+     * 
+     * @param   void 
+     * @return  String     A string containing all the songs available seperated by a "-" symbol  
+     */
+    public String getAllSongs()
+    {
+        //An array list to hold all the song titles without doubling up
+        ArrayList<String> allSongsList = new ArrayList<>();
+        
+        //Used to store each of the peers list of songs as they are checked
+        ArrayList<String> peerSongsList = new ArrayList<>();
+        
+        //Creates a string to hold a list of all the songs
+        String allSongs = "";
+        
+        //Loop through all the peers in the peer list
+        for (Peer peer : peerList)
+        {
+            //Get the song list for that peer
+            peerSongsList = peer.getSongList();
+            
+            //Loop through all the songs on that list
+            for (String song : peerSongsList)
+            {
+                //Check if the song is already listed
+                if (!allSongsList.contains(song))
+                {
+                    //If not listed, adds that song to the overall list
+                    allSongsList.add(song);
+                    
+                    //Add the title to the end of the string
+                    allSongs = allSongs + "-" + song;
+                }
+            }
+        }
+
+        //Returns the song list as one long string seperated by "-"
+        return allSongs;
+    }
+    
     public static void main(String args[])
     {
         //Create a music sever
         Music_Sever musicServer = new Music_Sever();
+        
+        //Creates a new thread which runs the message listener. musicServer is passed in so results can be sent
+        //back and requests made of the music server
+        (new Thread(new Message_Listener(musicServer))).start();
         
     }
 }

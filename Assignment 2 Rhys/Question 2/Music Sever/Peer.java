@@ -2,14 +2,14 @@ import java.util.concurrent.*;
 import java.util.*;
 import java.net.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
 /**
- * Peer is the seververs representation of a peer that is known and thier song list
+ * Peer is the seververs representation of a peer that is known and is responisble for 
+ * keeping track of thier song list as well as whether or not they are online.
  * 
  * @author Rhys Hill 
  * @version 1.0
@@ -27,9 +27,17 @@ public class Peer
     
     //Boolean to represent whether or not the peer is online
     private Boolean online;
+    
+    //The address of that peer. Only important while the peer is online
+    private String address;
 
     /**
-     * Constructor for objects of class Peer
+     * Constructor for objects of class Peer. The constructor sets the file name, sets the default
+     * connection status to offline, and initialises the array list of songs, before updating the
+     * list from file.
+     * 
+     * @param       fileName    Name of the file which holds, or will hold that peer's song list
+     * @return      Peer 
      */
     public Peer(String fileName)
     {
@@ -38,6 +46,9 @@ public class Peer
         
         //By default the peer is set to offline
         online = false;
+        
+        //Default as an empty string
+        address = "";
         
         //Initialise the songList as a new List. String qualifier not need as it implied above
         songList = new ArrayList<>();        
@@ -50,7 +61,7 @@ public class Peer
      * Method to get the name of a particular peers song list file
      * 
      * @param       void
-     * @return      String - listFileName
+     * @return      String      listFileName
      */
     public String getName()
     {
@@ -127,5 +138,99 @@ public class Peer
                 System.out.println("PEER - An error occured trying to create file " + listFileName);
             }
         }
+    }
+    
+    /**
+     * Method to set whether or not a peer is online
+     * 
+     * @param       ol      Whether or not this peer is online
+     * @return      void
+     */
+    public void setOnline(Boolean ol)
+    {
+        //Set the online varriable
+        online = ol;
+    }
+    
+    /**
+     * Method to set the current address of the peer
+     * 
+     * @param       add      The address of the peer
+     * @return      void
+     */
+    public void setAddress(String add)
+    {
+        //Set the address for the peer
+        address = add;
+    }
+    
+    /**
+     * Method to set whether or not a peer is online
+     * 
+     * @param       void
+     * @return      Boolean    Whether or not this peer is online
+     */
+    public Boolean getOnline()
+    {
+        //Return the online varriable
+        return online;
+    }
+    
+    /**
+     * Method to set the current address of the peer
+     * 
+     * @param       void
+     * @return      String      The address of the peer
+     */
+    public String getAddress()
+    {
+        //Return the address for the peer
+        return address;
+    }
+    
+    /**
+     * Scraps the old list of songs for a peer and replaces it with a new one provided by the client 
+     * 
+     * @param       newSongList     A string containing all of the songs that the peer has
+     * @return      void 
+     */
+    public void changeSongList(String newSongList)
+    {
+        //Break the string from the client into an array of strings
+        String[] songs = newSongList.split("-");
+        
+        //Clear the previous song list
+        songList.clear();
+        
+        //Repopulate the songlist array list with the songs given from the client
+        songList = new ArrayList<String>(Arrays.asList(songs));
+                
+        //Attempt to setup writing to the file. This will clear the file contents
+        try 
+        {
+            //Creates an output stream so that the file can be written to 
+            out = new FileOutputStream(listFileName);
+        }
+        //If the above setup fails
+        catch (Exception fileError)
+        {
+            //Print to console error message to tell user that the file coundn't be created
+            System.out.println("PEER - An error occured trying to clear file" + listFileName);
+        }
+        
+        //Update the song list file
+        updateSongListFile();
+    }
+    
+    /**
+     * Method to get the ArrayList that holds all the peers songs
+     * 
+     * @param       void
+     * @return      ArrayList<String> A list of the peers songs
+     */
+    public ArrayList<String> getSongList()
+    {
+        //Return the address for the peer
+        return songList;
     }
 }
