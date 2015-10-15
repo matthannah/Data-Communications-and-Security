@@ -33,6 +33,7 @@ public class UDPListener implements Runnable
             //create a new datagram socket object on port 9876
             socket = new DatagramSocket(9876);
         }
+        //enclose exception handling code in a catch block
         catch (IOException e)
         {
             //print the error message of type IOException
@@ -53,6 +54,7 @@ public class UDPListener implements Runnable
                 //start a new thread to handle the message received
                 (new Thread(new UDPMessageHandler(server, receivePacket))).start();
             }
+            //enclose exception handling code in a catch block
             catch (IOException e)
             {
                 //print the error message of type IOException

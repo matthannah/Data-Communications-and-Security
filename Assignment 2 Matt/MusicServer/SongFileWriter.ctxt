@@ -2,6 +2,7 @@
 comment0.params=
 comment0.target=SongFileWriter()
 comment0.text=\n\ Constructor\ for\ objects\ of\ class\ SongFileWriter\n
-comment1.params=songs
+comment1.params=peers
 comment1.target=void\ write(java.util.ArrayList)
+comment1.text=\n\ write\ -\ \ \ \ \ \ writes\ songs\ received\ to\ the\ file\ songs.txt,\ synchronized\ because\ we\ don't\ want\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ two\ threads\ to\ be\ writing\ to\ the\ same\ file\ at\ the\ same\ time\ (will\ cause\ exceptions)\n\ \n\ @param\ \ \ \ \ \ \ ArrayList<Peer>\ -\ all\ peers\n
 numComments=2
