@@ -52,7 +52,7 @@ public class SongFileWriter
             for (String song : songs)
             {
                 //write the songs to the output stream
-                myOutput.write(song);
+                myOutput.println(song);
             }
             //close the output stream
             myOutput.close();
