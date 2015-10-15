@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.*;
 
 /**
  * The Message_Listener waits for messages from clients and then starts up a Message_Proccessor in a new
@@ -74,6 +75,7 @@ public class Message_Listener implements Runnable
         {
             //Print to the console to let the user know an error has occured
             System.out.println("MESSAGE_LISTENER - An error has occured");
+            System.err.println(messageError);
         }
     }
 }

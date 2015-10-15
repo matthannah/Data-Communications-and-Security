@@ -71,6 +71,8 @@ public class Message_Listener implements Runnable
         {
             //Print to the console to let the user know an error has occured
             System.out.println("MESSAGE_LISTENER - An error has occured");
+            
+            System.err.println(messageError);
         }
     }
 }

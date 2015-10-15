@@ -1,11 +1,7 @@
 import java.util.concurrent.*;
 import java.util.*;
 import java.net.*;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.BufferedReader;
+import java.io.*;
 
 /**
  * Peer is the clients representation of a peer that is known and is responisble for 
@@ -52,6 +48,7 @@ public class Peer
         
         //Initialise the songList as a new List. String qualifier not need as it is implied above
         songList = new ArrayList<>();
+        songList.add("Song2.mp3");
         
         //Check the myName file for this peers name
         peerName = findName();
@@ -293,7 +290,7 @@ public class Peer
         (new Thread(new Message_Listener(peer))).start();
         
         //Send a message to the server to let it know the peer is online
-        peer.sendMessage("ONLINE");
+        peer.sendMessage("ONLINE-" + peer.getName());
         
         //Waiting for a connection message
         System.out.println("Waiting for server connection...");
@@ -318,5 +315,35 @@ public class Peer
         
         //Ask the user for an input via the console
         System.out.println("To update your song list    press 3");
+        
+        InputStreamReader isr = new InputStreamReader(System.in);
+        
+        BufferedReader br = new BufferedReader(isr);
+        
+        int input = 0;
+        
+        try
+        {
+            input = Integer.valueOf(br.readLine());
+        }
+        catch(IOException e)
+        {
+            System.err.println(e);
+        }
+        
+        switch (input)
+        { 
+            case 1: 
+            System.out.println("1");
+            break;
+            case 2: 
+            System.out.println("2");
+            break;
+            case 3: 
+            System.out.println("3");
+            break;
+            default:
+            System.out.println("6");
+        }
     }
 }

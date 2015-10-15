@@ -10,7 +10,7 @@ public class FileTransferClient
 {
     public static void main(String args[]) throws Exception 
     {
-        Socket sock = new Socket("127.0.0.1", 12345);
+        Socket sock = new Socket("192.168.187.1", 12345);
         byte[] mybytearray = new byte[1024];
         InputStream is = sock.getInputStream();
         FileOutputStream fos = new FileOutputStream("hello.txt");

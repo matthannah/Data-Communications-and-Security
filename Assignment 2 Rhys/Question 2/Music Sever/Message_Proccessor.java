@@ -68,8 +68,11 @@ public class Message_Proccessor implements Runnable
             //Tell the music server about the peer being online and tells of its current address
             String peerName = musicServer.peerOnline(message, messagePacket.getAddress().toString());
             
+            //Tells user a peer is online
+            System.out.println("Peer Online");
+            
             //Create a reply message for the client letting them know thier name on the system
-            sendMessage = "ONLINE" + peerName;
+            sendMessage = "ONLINE-" + peerName;
         }
         
         //Checks if the message type is "NEWSONG"
@@ -82,7 +85,7 @@ public class Message_Proccessor implements Runnable
             peer.changeSongList(message);
             
             //Create a reply message for the client letting them know the song list has been updated
-            sendMessage = "NEWSONGS";
+            sendMessage = "NEWSONGS-Received";
         }
         
         //Checks if the message type is "GETSONG"
