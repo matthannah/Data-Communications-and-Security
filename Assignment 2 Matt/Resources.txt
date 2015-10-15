@@ -1,0 +1,22 @@
+———Code sourced from the internet——— 
+
+* Simple UDP Server and Client 
+	- https://systembash.com/a-simple-java-udp-server-and-udp-client/
+
+* Simple TCP Server and Client 
+	- https://systembash.com/a-simple-java-tcp-server-and-tcp-client/
+
+* Java Docs: package java.io.*
+	- http://docs.oracle.com/javase/7/docs/api/java/io/package-summary.html
+
+* Java Docs: package java.net.*
+	- http://docs.oracle.com/javase/7/docs/api/java/net/package-summary.html
+
+* Java Docs: class Desktop
+	- http://docs.oracle.com/javase/7/docs/api/java/awt/Desktop.html
+
+* Byte array dynamic size
+	- http://www.programcreek.com/2009/02/java-convert-a-file-to-byte-array-then-convert-byte-array-to-a-file/
+
+* Reading, Writing, and Creating files
+	- https://docs.oracle.com/javase/tutorial/essential/io/file.html

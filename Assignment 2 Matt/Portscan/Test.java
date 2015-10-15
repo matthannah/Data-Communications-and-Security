@@ -16,7 +16,7 @@ public class Test
      * 
      * 
      * @param      arg[0]  :    ip address 
-     * @param      arg [1] :    Range of ports to be scanned MIN 
+     * @param      arg[1]  :    Range of ports to be scanned MIN 
      * @param      arg[2]  :    Range of ports to be scanned MAX
      * 
      * @return     void
@@ -106,14 +106,5 @@ public class Test
                 }
             }
         });
-    }
-    
-    
-    public static Future<Boolean> checkHosts(final ExecutorService es, 
-    final String ip, final int timeout) 
-    {
-       if (InetAddress.getByName(ip).isReachable(timeout)){
-           return true;
-       }
     }
 }
