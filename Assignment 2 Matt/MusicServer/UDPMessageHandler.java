@@ -56,9 +56,7 @@ public class UDPMessageHandler implements Runnable
                 for (int i = peer.getSongList().size(); i > 0; i--)
                 {
                     //print them out
-                    System.out.println("-----peers songs------");
                     System.out.println(peer.getSongList().get(i-1));
-                    System.out.println("Running...");
                 }            
                 //write all the songs to the songs.txt file
                 server.getSongFileWriter().write(server.getPeerManager().getPeerList());
