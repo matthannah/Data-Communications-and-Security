@@ -331,6 +331,7 @@ public class Peer
             System.err.println(e);
         }
         
+        while(true){
         switch (input)
         { 
             case 1: 
@@ -345,5 +346,6 @@ public class Peer
             default:
             System.out.println("6");
         }
+    }
     }
 }
