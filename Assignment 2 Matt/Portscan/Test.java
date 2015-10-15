@@ -135,7 +135,6 @@ public class Test
         for (int i = 1; i <= range; i++)
         {
             Integer lastNumber = Integer.valueOf(parts[3]) + i;
-            System.out.println(lastNumber);
             if (lastNumber > 255)
             {
                 inSubnet = false;
@@ -149,24 +148,39 @@ public class Test
         //now check if the ips are in the local subnet
         //first get the network
         InetAddress local = null;
-        short subnetMask = 0;
+        short bitsSubnet = 0;
         try
         {
             local = InetAddress.getLocalHost();
             NetworkInterface ni = NetworkInterface.getByInetAddress(local);
-            subnetMask = ni.getInterfaceAddresses().get(0).getNetworkPrefixLength();
+            bitsSubnet = ni.getInterfaceAddresses().get(0).getNetworkPrefixLength();
         }
         catch (Exception e)
         {
             inSubnet = false;
             System.err.println(e);
         }
-       
+
         //check masks against the list of ips
-        
+
         for (String address : ips)
         {
-            
+            try
+            {
+                byte[] bytes = InetAddress.getByName(address).getAddress();
+                int i = ((bytes[0] & 0xFF) << 24) | ((bytes[1] & 0xFF) << 16) | ((bytes[2] & 0xFF) << 8)  | ((bytes[3] & 0xFF) << 0);
+                bytes = local.getAddress();
+                int subnet = ((bytes[0] & 0xFF) << 24) | ((bytes[1] & 0xFF) << 16) | ((bytes[2] & 0xFF) << 8)  | ((bytes[3] & 0xFF) << 0);
+                int mask = -1 << (32 - bitsSubnet);
+                if ((i & mask) != (subnet & mask)) 
+                {
+                    inSubnet = false;
+                }
+            }
+            catch (Exception e)
+            {
+                System.err.println(e);
+            }
         }
         return inSubnet;
     }

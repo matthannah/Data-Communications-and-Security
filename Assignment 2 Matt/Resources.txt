@@ -1,4 +1,4 @@
-———Code sourced from the internet——— 
+﻿———Code sourced from the internet——— 
 
 * Simple UDP Server and Client 
 	- https://systembash.com/a-simple-java-udp-server-and-udp-client/
@@ -23,3 +23,6 @@
 
 * NetworkInterface class
 	- http://docs.oracle.com/javase/6/docs/api/java/net/NetworkInterface.html
+
+* Validate IP with mask example
+	- http://stackoverflow.com/questions/4209760/validate-an-ip-address-with-mask
