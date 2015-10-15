@@ -20,3 +20,6 @@
 
 * Reading, Writing, and Creating files
 	- https://docs.oracle.com/javase/tutorial/essential/io/file.html
+
+* NetworkInterface class
+	- http://docs.oracle.com/javase/6/docs/api/java/net/NetworkInterface.html

@@ -1,10 +1,12 @@
 #BlueJ class context
 comment0.params=args
 comment0.target=void\ main(java.lang.String[])
-comment0.text=\n\ Main\ method\ -\ runs\ the\ port\ scan\ (no\ data\ vaildation\ is\ implemented)\n\ \n\ \n\ @param\ \ \ \ \ \ arg[0]\ \ \:\ \ \ \ ip\ address\ \n\ @param\ \ \ \ \ \ arg[1]\ \ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MIN\ \n\ @param\ \ \ \ \ \ arg[2]\ \ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MAX\n\ \n\ @return\ \ \ \ \ void\n
+comment0.text=\n\ Main\ method\ -\ runs\ the\ port\ scan\ (no\ data\ vaildation\ is\ implemented)\n\ \n\ \n\ @param\ \ \ \ \ \ args[0]\ \ \:\ \ \ \ ip\ address\ \n\ @param\ \ \ \ \ \ args[1]\ \ \:\ \ \ \ number\ of\ ips\ to\ be\ scanned\n\ @param\ \ \ \ \ \ args[2]\ \ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MIN\ \n\ @param\ \ \ \ \ \ args[3]\ \ \:\ \ \ \ Range\ of\ ports\ to\ be\ scanned\ MAX\n\ \n\ @return\ \ \ \ \ void\n
 comment1.params=es\ ip\ port\ timeout
 comment1.target=java.util.concurrent.Future\ portIsOpen(java.util.concurrent.ExecutorService,\ java.lang.String,\ int,\ int)
 comment1.text=\n\ portIsOpen\ -\ attempts\ to\ establish\ a\ connection\ with\ open\ port\ \n\ \n\ @param\ \ \ \ \ \ ip\ \ \ \ \ \ \:\ \ \ \ ip\ address\ to\ be\ scanned\ for\ open\ ports\n\ @param\ \ \ \ \ \ port\ \ \ \ \:\ \ \ \ the\ port\ to\ be\ scanned\n\ @param\ \ \ \ \ \ timeout\ \:\ \ \ \ how\ long\ to\ wait\ for\ the\ connection\ to\ be\ established\n\ \n\ @return\ \ \ \ \ true\ \ \ \ \:\ \ \ \ If\ a\ connection\ was\ established\ return\ true\n\ @return\ \ \ \ \ false\ \ \ \:\ \ \ \ If\ an\ exception\ was\ thrown\ due\ to\ an\ connection\ not\ being\ \n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ established\ return\ false\n
 comment2.params=
 comment2.target=java.lang.Boolean\ call()
-numComments=3
+comment3.params=ip\ range
+comment3.target=boolean\ inSubnet(java.lang.String,\ java.lang.Integer)
+numComments=4
