@@ -2,8 +2,8 @@ import java.net.*;
 import java.io.*;
 
 /**
- * The Message_Listener waits for messages from clients and then starts up a Message_Proccessor in a new
- * thread which carries out what ever the message asks
+ * The Message_Listener waits for messages from the server or other clients and then starts up a 
+ * Message_Proccessor in a new thread which carries out what ever the message asks
  * 
  * @author      Rhys Hill 
  * @version     1.0
@@ -11,26 +11,26 @@ import java.io.*;
 public class Message_Listener implements Runnable
 {
     //The music server object here is used to store a refference to the music sever used for this system
-    Music_Sever musicServer;
+    Peer peer;
     
     //Used to store the socket that is listening for messages
     DatagramSocket messageSocket;
     
     /**
-     * Constructor for the Message_Listener class. Simply sets the music server
+     * Constructor for the Message_Listener class. Simply sets the peer
      * 
      * @param       Music_Sever
      * @return      Message_Listener
      */
-    public Message_Listener (Music_Sever ms)
+    public Message_Listener (Peer p)
     {
-        //Sets the music server equal to the one that is passed in
-        musicServer = ms;
+        //Sets the peer equal to the one passed in
+        peer = p;
     }
     
     /**
      * Implementation of runnables run function. Attempts to creatre a new socket to listen for messages.
-     * Waits until a message is recived and then reports that message back to the music sever
+     * Waits until a message is recived and then reports that message back to the peer
      * 
      * @param       void
      * @return      void
@@ -40,11 +40,11 @@ public class Message_Listener implements Runnable
         //Attempts to carry out its purpose
         try 
         {
-            //Creates a new socket on which to listen with the port number 9001
-            messageSocket = new DatagramSocket(9001);
+            //Creates a new socket on which to listen with the port number 9101
+            messageSocket = new DatagramSocket(9101);
             
             //Repeat this loop for the life of the program
-            while (musicServer.listen())
+            while (peer.listen())
             {
                 //Creates a byte array to store a received message
                 byte[] message = new byte[1024];
@@ -52,17 +52,14 @@ public class Message_Listener implements Runnable
                 //Creates a packet that can store that message of the same size as the byte array 
                 DatagramPacket messagePacket = new DatagramPacket(message, message.length);
                 
-                //Print to the console that the server is ready and waiting for a message
-                System.out.println("Server waiting for message...");
+                //Print to the console that the client is ready and waiting for a message
+                System.out.println("Client is listening for messages...");
                 
                 //Waits until there is actually a message available
                 messageSocket.receive(messagePacket);
                 
-                //Print a message to let the user know a message was received
-                System.out.println("Message Received");
-                
                 //Starts a new thread so that the message can be proccessed without missing any more messages
-                (new Thread(new Message_Proccessor(messagePacket, musicServer))).start();
+                (new Thread(new Message_Proccessor(messagePacket, peer))).start();
             }
             
             //Closes the connection. Nvere actually used

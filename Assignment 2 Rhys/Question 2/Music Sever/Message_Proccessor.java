@@ -116,7 +116,7 @@ public class Message_Proccessor implements Runnable
         try
         {
             //Create a new socket that is different to the one for receiving messages
-            DatagramSocket messageSocket = new DatagramSocket(9002);                      
+            DatagramSocket messageSocket = new DatagramSocket();                      
             
             //Byte array to store the message being sent
             byte[] dataToWrite = new byte[1024]; 
@@ -125,7 +125,7 @@ public class Message_Proccessor implements Runnable
             dataToWrite = sendMessage.getBytes();                   
             
             //Create a packet for the message
-            DatagramPacket sendablePacket = new DatagramPacket(dataToWrite, dataToWrite.length, messagePacket.getAddress(), messagePacket.getPort());                   
+            DatagramPacket sendablePacket = new DatagramPacket(dataToWrite, dataToWrite.length, messagePacket.getAddress(), 9101);                   
             
             //Send the newly created packet
             messageSocket.send(sendablePacket); 

@@ -362,5 +362,6 @@ public class Music_Sever
         //back and requests made of the music server
         (new Thread(new Message_Listener(musicServer))).start();
         
+        //@TODO Check if online peers are still online
     }
 }
