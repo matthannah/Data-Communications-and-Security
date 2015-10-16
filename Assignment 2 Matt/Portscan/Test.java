@@ -1,6 +1,8 @@
 import java.util.concurrent.*;
 import java.util.*;
 import java.net.*;
+import java.io.*;
+import java.text.*;
 
 /**
  * The class Test implements a way to scan a number of ports defined by the user at the command line. 
@@ -53,6 +55,24 @@ public class Test
         //if the ip addresses are in the subnet
         if(inSubnet(ips))
         {
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH,mm,ss");
+
+            // Get the date today using Calendar object.
+            Date today = Calendar.getInstance().getTime();        
+            // Using DateFormat format method we can create a string 
+            // representation of a date with the defined format.
+            String date = df.format(today);
+            
+            File scanDir = new File("Scans");
+            if(!scanDir.exists())
+            {
+                scanDir.mkdir();
+            }
+            
+            String filename = scanDir.getAbsolutePath() + "/" +date + " Port Scan.txt";
+            FileOutputStream fos = new FileOutputStream(filename);
+            PrintWriter outToFile = new PrintWriter(fos, true);
+            
             for (String address : ips)
             {
                 Random random = new Random(); // creates a random object
@@ -87,17 +107,20 @@ public class Test
                         openPorts++; // add one to the open port count
                     }
                 }
-               
                 
                 // prints message to system detailing scan result
                 System.out.println("Scan Results for " + address + ": " + openPorts + " open ports, probed with timeout of " + timeout + "ms");  
+                outToFile.println("Scan Results for " + address + ": " + openPorts + " open ports, probed with timeout of " + timeout + "ms");
                 for (Integer p : open)
                 {
+                    outToFile.println(p + " open");
                     System.out.println(p + " open");
                 }
+                outToFile.println("");
                 System.out.println("");
                 futures.clear();
             }
+            outToFile.close();
         }
         else
         {
@@ -163,11 +186,11 @@ public class Test
         
         //now check if the ips are in the local subnet
         //first get the network
-        Inet4Address local = null;
+        InetAddress local = null;
         short bitsSubnet = 0;
         try
         {
-            local = (Inet4Address) InetAddress.getLocalHost();
+            local = InetAddress.getLocalHost();
             NetworkInterface ni = NetworkInterface.getByInetAddress(local);
             //bitsSubnet = ni.getInterfaceAddresses().get(0).getNetworkPrefixLength();
             List<InterfaceAddress> ia = ni.getInterfaceAddresses();
