@@ -1,5 +1,3 @@
-.DS_Store
-MGS - Quiet's Theme.mp3
-test.txt
-The Beatles - Hey Jude.mp3
 The Beatles - Yellow Submarine.mp3
+The Beatles - Hey Jude.mp3
+GOT theme.mp3
