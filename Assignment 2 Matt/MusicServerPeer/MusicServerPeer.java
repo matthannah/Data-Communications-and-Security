@@ -511,6 +511,7 @@ public class MusicServerPeer
         //syntax is divided by commas, and the first part being the number of
         //data sent
         //example 4 songs: 4,song1,song2,song3,song4
+        songList = songList.trim();
         String parts[] = songList.split(",");   
         System.out.println("------SONG LIST-------");
         for( int i = Integer.valueOf(parts[0]); i > 0; i--)

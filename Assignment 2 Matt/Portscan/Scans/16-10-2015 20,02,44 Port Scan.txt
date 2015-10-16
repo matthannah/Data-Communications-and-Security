@@ -1,0 +1,79 @@
+Scan Results for 192.168.0.1: 3 open ports, probed with timeout of 352ms
+80 open
+1990 open
+53 open
+
+Scan Results for 192.168.0.2: 0 open ports, probed with timeout of 189ms
+
+Scan Results for 192.168.0.3: 0 open ports, probed with timeout of 106ms
+
+Scan Results for 192.168.0.4: 0 open ports, probed with timeout of 147ms
+
+Scan Results for 192.168.0.5: 0 open ports, probed with timeout of 469ms
+
+Scan Results for 192.168.0.6: 9 open ports, probed with timeout of 332ms
+1038 open
+1025 open
+1028 open
+135 open
+1040 open
+139 open
+1026 open
+445 open
+1027 open
+
+Scan Results for 192.168.0.7: 0 open ports, probed with timeout of 154ms
+
+Scan Results for 192.168.0.8: 0 open ports, probed with timeout of 219ms
+
+Scan Results for 192.168.0.9: 0 open ports, probed with timeout of 248ms
+
+Scan Results for 192.168.0.10: 0 open ports, probed with timeout of 394ms
+
+Scan Results for 192.168.0.11: 0 open ports, probed with timeout of 130ms
+
+Scan Results for 192.168.0.12: 0 open ports, probed with timeout of 337ms
+
+Scan Results for 192.168.0.13: 0 open ports, probed with timeout of 360ms
+
+Scan Results for 192.168.0.14: 1 open ports, probed with timeout of 253ms
+80 open
+
+Scan Results for 192.168.0.15: 0 open ports, probed with timeout of 229ms
+
+Scan Results for 192.168.0.16: 0 open ports, probed with timeout of 356ms
+
+Scan Results for 192.168.0.17: 0 open ports, probed with timeout of 256ms
+
+Scan Results for 192.168.0.18: 0 open ports, probed with timeout of 139ms
+
+Scan Results for 192.168.0.19: 0 open ports, probed with timeout of 364ms
+
+Scan Results for 192.168.0.20: 0 open ports, probed with timeout of 390ms
+
+Scan Results for 192.168.0.21: 0 open ports, probed with timeout of 350ms
+
+Scan Results for 192.168.0.22: 0 open ports, probed with timeout of 223ms
+
+Scan Results for 192.168.0.23: 0 open ports, probed with timeout of 153ms
+
+Scan Results for 192.168.0.24: 0 open ports, probed with timeout of 428ms
+
+Scan Results for 192.168.0.25: 6 open ports, probed with timeout of 102ms
+445 open
+515 open
+139 open
+443 open
+80 open
+631 open
+
+Scan Results for 192.168.0.26: 0 open ports, probed with timeout of 188ms
+
+Scan Results for 192.168.0.27: 0 open ports, probed with timeout of 445ms
+
+Scan Results for 192.168.0.28: 0 open ports, probed with timeout of 261ms
+
+Scan Results for 192.168.0.29: 0 open ports, probed with timeout of 343ms
+
+Scan Results for 192.168.0.30: 0 open ports, probed with timeout of 315ms
+
