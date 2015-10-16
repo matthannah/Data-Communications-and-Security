@@ -37,10 +37,24 @@ public class Test
                                                             // min and max
         final int timeout = randomNumber; // set the timeout equal to the random number
 
-        //if the ip addresses are in the subnet
-        if(inSubnet(ip, range))
+        
+        //create a list of ips to be scanned
+        ArrayList<String> ips = new ArrayList<String>();
+        //add the first ip entered by the user
+        ips.add(ip);
+        //get the last number of the ip address
+        String parts[] = ip.split("\\.");
+        //add each ip to the list
+        for (int i = 1; i <= range; i++)
         {
-           /* // this loop adds all the ports to be scanned into a list
+            Integer lastNumber = Integer.valueOf(parts[3]) + i;
+            ips.add(parts[0] + "." + parts[1] + "." + parts[2] + "." + lastNumber);
+        }
+        
+        //if the ip addresses are in the subnet
+        if(inSubnet(ips))
+        {
+            // this loop adds all the ports to be scanned into a list
             // ports to be scanned is determined by the user entering the
             // range in the command line
             for (int i =  Integer.parseInt(args[2]); i <= Integer.parseInt(args[3]); i++)
@@ -51,6 +65,7 @@ public class Test
             Collections.shuffle(ports); // randomize the list, effectively randomizes the order in which
                                         // ports are scanned
             
+                      
             if (ports.size() > 1 && Integer.parseInt(args[2]) > 0)
             {
                 for (int i =  Integer.parseInt(args[2]); i <= Integer.parseInt(args[3]); i++) 
@@ -60,7 +75,7 @@ public class Test
                                                                               // to the list
                 }
             }
-            es.shutdown(); // shutdown threads gracefully - meaning that they will finish their tasks 
+           es.shutdown(); // shutdown threads gracefully - meaning that they will finish their tasks 
                            // and then terminate, in our case they will finish establishing connections
                            // first
                            
@@ -76,7 +91,7 @@ public class Test
             
             // prints message to system detailing scan result
             System.out.println("There are " + openPorts + " open ports on host " + ip +  
-            " probed with a timeout of " + timeout + "ms");*/
+            " probed with a timeout of " + timeout + "ms");
         }
         else
         {
@@ -118,46 +133,47 @@ public class Test
         });
     }
     
-    public static boolean inSubnet(String ip, Integer range)
+    public static boolean inSubnet(ArrayList<String> ips)
     {
         //logic of whether or not the ip range entered is in the subnet
         boolean inSubnet = true;
         
-        //check whether the range of ips are in the local subnet
-        //first create a new list of ips to be checked
-        ArrayList<String> ips = new ArrayList<String>();
-        //add the first ip entered by the user
-        ips.add(ip);
-        //get the last number of the ip address
-        String parts[] = ip.split("\\.");
-        //first check if the ip range does not go over 255
-        //aswell as populate the ips array list with elements
-        for (int i = 1; i <= range; i++)
-        {
-            Integer lastNumber = Integer.valueOf(parts[3]) + i;
-            if (lastNumber > 255)
+        for (String address : ips)
+        { 
+            //get the last number of the ip address
+            String parts[] = address.split("\\.");
+            
+            if (Integer.valueOf(parts[3]) > 255)
             {
+                System.out.println("The ips went over 255");
                 inSubnet = false;
-            }
-            else
-            {
-                ips.add(parts[0] + "." + parts[1] + "." + parts[2] + "." + lastNumber);
             }
         }
         
         //now check if the ips are in the local subnet
         //first get the network
-        InetAddress local = null;
+        Inet4Address local = null;
         short bitsSubnet = 0;
         try
         {
-            local = InetAddress.getLocalHost();
+            local = (Inet4Address) InetAddress.getLocalHost();
+            System.out.println("local network: " + local);
             NetworkInterface ni = NetworkInterface.getByInetAddress(local);
-            bitsSubnet = ni.getInterfaceAddresses().get(0).getNetworkPrefixLength();
+            //bitsSubnet = ni.getInterfaceAddresses().get(0).getNetworkPrefixLength();
+            List<InterfaceAddress> ia = ni.getInterfaceAddresses();
+            for (InterfaceAddress inter : ia)
+            {
+                if(inter.getAddress().getHostAddress().equals(local.getHostAddress()))
+                {
+                    bitsSubnet = inter.getNetworkPrefixLength();
+                    break;
+                }
+            }
         }
         catch (Exception e)
         {
             inSubnet = false;
+            System.out.println("an exception was thrown trying to generate a mask");
             System.err.println(e);
         }
 
@@ -174,6 +190,7 @@ public class Test
                 int mask = -1 << (32 - bitsSubnet);
                 if ((i & mask) != (subnet & mask)) 
                 {
+                    System.out.println("host bits of ips entered did not match network");
                     inSubnet = false;
                 }
             }
