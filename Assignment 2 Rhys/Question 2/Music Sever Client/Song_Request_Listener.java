@@ -23,7 +23,8 @@ public class Song_Request_Listener implements Runnable
      */
     public Song_Request_Listener()
     {
-
+        //Let the user know the TCP listener is active
+        System.out.println("Listening for song requests");
     }
     
     /**
