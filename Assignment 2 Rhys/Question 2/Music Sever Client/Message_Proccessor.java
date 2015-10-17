@@ -44,13 +44,15 @@ public class Message_Proccessor implements Runnable
         messageType = new String(messagePacket.getData()).split("-")[0];
         
         //Gets rid of unwanted white space
-        messageType.trim();
+        messageType = messageType.trim();
+        System.out.println("TYPE " + messageType);
         
         //Gets the message as everything after the "-"
         message = new String(messagePacket.getData()).split("-")[1];
         
         //Gets rid of unwanted white space
-        message.trim();
+        message = message.trim();
+        System.out.println("MESSAGE " + message);
     }
 
     /**
@@ -82,17 +84,30 @@ public class Message_Proccessor implements Runnable
         else if (messageType.equals("GETSONG"))
         {
             //@TODO Transfer that mp3 file
+            System.out.println(message);
+            
+            //Split the message into an array of strings. Each of these is the IP of a peer with the song 
+            String[] ipArray = (new String(messagePacket.getData())).split("-");
+                        
+            //Request the song from the first IP in the list
+            peer.TCPRequestSong(ipArray[2], ipArray[1]);
         }
         
          //Checks if the message type is "GETALL"
         else if (messageType.equals("GETALL"))
         {
             //Split the message into an array of strings. Each of these string will be a song title
-            String[] songArray = new String(messagePacket.getData()).trim().split("-");
+            String[] songArray = (new String(messagePacket.getData())).split("-");
+           
+            //Cast the String array made above as an array list
+            ArrayList<String> songArrayList = new ArrayList<>(Arrays.asList(songArray));
             
             //Loop through the string array created skipping number one
-            for (String song : songArray)
+            for (String song : songArrayList)
             {
+                //Get rid of white space
+                song = song.trim();
+                
                 //Check for the message type string so it can be ignored
                 if (!song.equals("GETALL"))
                 {
@@ -106,14 +121,14 @@ public class Message_Proccessor implements Runnable
         else if (messageType.equals("HEARTBEAT"))
         {
             //Reply message for the heartbeat message to let the server know the peer is still online
-            sendMessage = "HEARTBEAT";
+            sendMessage = "HEARTBEAT-";
         }
         
         //If the message type is not one that the server recognises
         else
         {
             //Create a reply message for client to tell them something went wrong
-            sendMessage = "FUCKKNOWS";
+            sendMessage = "FUCKKNOWS-";
         }
         
         //Check if there is a message to send

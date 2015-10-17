@@ -121,6 +121,16 @@ public class Music_Sever
                 System.out.println("SERVER - An error occured trying to populate file " + fileName);
             }
         }
+        //Attempt to close the file
+        try
+        {
+            //close the file output stream
+            out.close();
+        }
+        catch (Exception closeError)
+        {
+            System.err.println(closeError);
+        }
     }
     
     /**
@@ -177,6 +187,12 @@ public class Music_Sever
      */
     public Peer getPeerByAddress(String peerAddress)
     {
+        //Gid rid of white space
+        peerAddress = peerAddress.trim();
+        
+        //Get rid of the slash at the begining
+        peerAddress = peerAddress.replace("/","");
+        
         //Loop goes through evry peer already in the peer list
         for (Peer p : peerList)
         {
@@ -203,6 +219,11 @@ public class Music_Sever
     {
         //Stores either the name of the peer given or the new unique name found
         String newName = "";
+        
+        //Get rid of white space
+        currentPeerName = currentPeerName.trim();
+        
+        System.out.println(currentPeerName);
         
         //Checks to see if the peer is already know
         if (currentPeerName.equals("unnamed"))
@@ -253,7 +274,8 @@ public class Music_Sever
         peer.setOnline(true);
         
         //Set the address
-        peer.setAddress(address);
+        peer.setAddress(address.replace("/",""));
+        System.out.println(address.replace("/",""));
         
         //Return the new name of the peer. This will be the same as what was given for known peers
         return newName;
@@ -297,6 +319,9 @@ public class Music_Sever
             //Loop through all the songs on that list
             for (String song : peerSongsList)
             {
+                //Get rid of white space
+                song = song.trim();
+                
                 //Check if the song is already listed
                 if (!allSongsList.contains(song))
                 {
@@ -305,6 +330,8 @@ public class Music_Sever
                     
                     //Add the title to the end of the string
                     allSongs = allSongs + "-" + song;
+                    
+                    System.out.println(song);
                 }
             }
         }
@@ -346,7 +373,7 @@ public class Music_Sever
         if (addresses.equals(""))
         {
             //Set addresses to show that the song couldn't be found
-            addresses = "notfound";
+            addresses = "-notfound";
         }
         
         //return either a list of addresses or a "notfound" as a string

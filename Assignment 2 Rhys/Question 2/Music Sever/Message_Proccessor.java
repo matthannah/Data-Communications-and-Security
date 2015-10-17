@@ -44,13 +44,13 @@ public class Message_Proccessor implements Runnable
         messageType = new String(messagePacket.getData()).split("-")[0];
         
         //Gets rid of unwanted white space
-        messageType.trim();
+        messageType = messageType.trim();
         
         //Gets the message as everything after the "-"
         message = new String(messagePacket.getData()).split("-")[1];
         
         //Gets rid of unwanted white space
-        message.trim();
+        message = message.trim();
     }
 
     /**
@@ -69,7 +69,7 @@ public class Message_Proccessor implements Runnable
             String peerName = musicServer.peerOnline(message, messagePacket.getAddress().toString());
             
             //Tells user a peer is online
-            System.out.println("Peer Online");
+            System.out.println(peerName + " Online");
             
             //Create a reply message for the client letting them know thier name on the system
             sendMessage = "ONLINE-" + peerName;
@@ -81,8 +81,11 @@ public class Message_Proccessor implements Runnable
             //Ask the music server for the peer that this message is meant for based on its address
             Peer peer = musicServer.getPeerByAddress(messagePacket.getAddress().toString());
             
+            //Split the message into an array of strings. Each of these string will be a song title
+            String songString = (new String(messagePacket.getData()));
+            
             //Tell that peer to change it's song list to match the one it's just received from the client
-            peer.changeSongList(message);
+            peer.changeSongList(songString);
             
             //Create a reply message for the client letting them know the song list has been updated
             sendMessage = "NEWSONGS-Received";
@@ -95,7 +98,7 @@ public class Message_Proccessor implements Runnable
             String peerAddress = musicServer.getSong(message);
             
             //Create a reply for the client with the address of a peer who has the song they want
-            sendMessage = "GETSONG" + peerAddress;
+            sendMessage = "GETSONG-" + message + peerAddress;
         }
         
         //Checks if the message type is "GETALL"

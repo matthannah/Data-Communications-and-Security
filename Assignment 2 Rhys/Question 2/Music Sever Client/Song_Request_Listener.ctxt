@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Song_Request_Listener()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Song_Request_Listener.\ Does\ nothing\ apart\ from\ create\ the\ object\r\n\ itself\r\n\ \r\n\ @param\ \ \ void\r\n\ @return\ \ Song_Request_Listener\r\n
+comment1.params=
+comment1.target=void\ run()
+comment1.text=\r\n\ The\ implementation\ runnables\ run\ function.\ Waits\ for\ a\ message\ to\ be\ received\ and\ then\ transfers\r\n\ the\ requested\ song\r\n\ \r\n
+numComments=2

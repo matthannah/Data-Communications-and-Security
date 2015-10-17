@@ -42,7 +42,7 @@ public class Peer
     public Peer(String fileName)
     {
         //Initialises listFileName with the name given to the constructor
-        listFileName = fileName;
+        listFileName = fileName.trim();
         
         //By default the peer is set to offline
         online = false;
@@ -89,11 +89,16 @@ public class Peer
             //Read the next line of the file and check if there's anything there
             while ((line = buff.readLine()) != null) 
             {
+                //Get rid of white space
+                line = line.trim();
+                
                 //Checks if that song is already in the list of song
                 if (!songList.contains(line))
                 {
                     //Adds the song to the songs list
                     songList.add(line);
+                    
+                    System.out.println(listFileName + " " + line);
                 }
             }
         }
@@ -137,6 +142,18 @@ public class Peer
                 //Print to console error message to tell user that the file coundn't be made
                 System.out.println("PEER - An error occured trying to create file " + listFileName);
             }
+        }
+        //Attempt to close the file output stream
+        try
+        {
+            //Close the file output stream
+            out.close();
+        }
+        //If it is unable to be closed
+        catch(Exception closeError)
+        {
+            //Print error message to the console for the user
+            System.err.println(closeError);
         }
     }
     
@@ -202,14 +219,31 @@ public class Peer
         //Clear the previous song list
         songList.clear();
         
-        //Repopulate the songlist array list with the songs given from the client
-        songList = new ArrayList<String>(Arrays.asList(songs));
+        //Create an array list with the songs given from the client
+        ArrayList<String> songArrayList = new ArrayList<String>(Arrays.asList(songs));
+        
+        //Loop through the newly created array list
+        for(String song : songArrayList)
+        {
+            //Get rid of white space
+            song = song.trim();
+            
+            //Check for the message type so it can be ignored
+            if(!song.equals("NEWSONGS"))
+            {
+                //Add to the peers actual list of songs
+                songList.add(song);
+            }
+        }
                 
         //Attempt to setup writing to the file. This will clear the file contents
         try 
         {
             //Creates an output stream so that the file can be written to 
             out = new FileOutputStream(listFileName);
+            
+            //Close the file output stream
+            out.close();
         }
         //If the above setup fails
         catch (Exception fileError)

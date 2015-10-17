@@ -343,7 +343,7 @@ public class Test
         
             //Reads from the network information the length of the subnet mask
             length = networkInterface.getInterfaceAddresses().get(0).getNetworkPrefixLength();
-            
+            System.out.println(length);
             //Used to store the binary version of each section of the subnet mask
             String binaryByte = "";
             
