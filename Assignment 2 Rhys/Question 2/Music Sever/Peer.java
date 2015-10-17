@@ -215,41 +215,45 @@ public class Peer
     {
         //Break the string from the client into an array of strings
         String[] songs = newSongList.split("-");
-        
+       
         //Clear the previous song list
         songList.clear();
         
-        //Create an array list with the songs given from the client
-        ArrayList<String> songArrayList = new ArrayList<String>(Arrays.asList(songs));
-        
-        //Loop through the newly created array list
-        for(String song : songArrayList)
+        //Check if the new list has any songs
+        if(!songs[1].equals("nosongs"))
         {
-            //Get rid of white space
-            song = song.trim();
+            //Create an array list with the songs given from the client
+            ArrayList<String> songArrayList = new ArrayList<String>(Arrays.asList(songs));
             
-            //Check for the message type so it can be ignored
-            if(!song.equals("NEWSONGS"))
+            //Loop through the newly created array list
+            for(String song : songArrayList)
             {
-                //Add to the peers actual list of songs
-                songList.add(song);
-            }
-        }
+                //Get rid of white space
+                song = song.trim();
                 
-        //Attempt to setup writing to the file. This will clear the file contents
-        try 
-        {
-            //Creates an output stream so that the file can be written to 
-            out = new FileOutputStream(listFileName);
-            
-            //Close the file output stream
-            out.close();
-        }
-        //If the above setup fails
-        catch (Exception fileError)
-        {
-            //Print to console error message to tell user that the file coundn't be created
-            System.out.println("PEER - An error occured trying to clear file" + listFileName);
+                //Check for the message type so it can be ignored
+                if(!song.equals("NEWSONGS"))
+                {
+                    //Add to the peers actual list of songs
+                    songList.add(song);
+                }
+            }
+                    
+            //Attempt to setup writing to the file. This will clear the file contents
+            try 
+            {
+                //Creates an output stream so that the file can be written to 
+                out = new FileOutputStream(listFileName);
+                
+                //Close the file output stream
+                out.close();
+            }
+            //If the above setup fails
+            catch (Exception fileError)
+            {
+                //Print to console error message to tell user that the file coundn't be created
+                System.out.println("PEER - An error occured trying to clear file" + listFileName);
+            }
         }
         
         //Update the song list file

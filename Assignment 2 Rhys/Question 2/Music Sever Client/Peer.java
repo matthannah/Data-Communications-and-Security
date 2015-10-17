@@ -287,8 +287,18 @@ public class Peer
             songsList = songsList + "-" + song;
         }
         
-        //Return the string of all the songs
-        return songsList;
+        //Check if the peer has any songs
+        if(songList.equals(""))
+        {
+            //return a message that the peer does not have any songs
+            return "-nosongs";
+        }
+        //If the peer does have songs
+        else
+        {
+            //Return the string of all the songs
+            return songsList;
+        }
     }
     
     /**
