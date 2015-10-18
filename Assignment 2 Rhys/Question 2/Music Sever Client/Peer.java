@@ -373,7 +373,7 @@ public class Peer
         int intOfByte;
         
         //The message that is sent to the other peers listener. Command GIVESONG follwed by the song wanted
-        String message = "GIVESONG-" + songRequested; 
+        String message = "GIVESONG-" + songRequested + "\n"; 
         
         //Where the mp3 will be written
         final String path = "Songs/"+songRequested;
