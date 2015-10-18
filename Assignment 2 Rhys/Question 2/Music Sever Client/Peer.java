@@ -382,7 +382,7 @@ public class Peer
         try 
         {
             //Intitialise the socket using the IP given and 9202 as the port. This is know to be where they are listening
-            socket = new Socket(ip.trim(), 9203);  
+            socket = new Socket(ip.trim(), 9202);  
             
             //Set out equal to the output stream of the socket
             out = new DataOutputStream(socket.getOutputStream()); 

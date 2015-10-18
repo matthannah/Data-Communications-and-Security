@@ -82,15 +82,14 @@ public class Message_Proccessor implements Runnable
         
         //Checks if the message type is "GETSONG"
         else if (messageType.equals("GETSONG"))
-        {
-            //@TODO Transfer that mp3 file
-            System.out.println(message);
-            
+        {          
             //Split the message into an array of strings. Each of these is the IP of a peer with the song 
             String[] ipArray = (new String(messagePacket.getData())).split("-");
+            
+            System.out.println(message + " is at " + ipArray[2].trim());
                         
             //Request the song from the first IP in the list
-            peer.TCPRequestSong(ipArray[2], ipArray[1]);
+            peer.TCPRequestSong(ipArray[2], ipArray[1].trim());
         }
         
          //Checks if the message type is "GETALL"
