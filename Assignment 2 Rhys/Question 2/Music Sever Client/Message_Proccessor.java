@@ -45,14 +45,12 @@ public class Message_Proccessor implements Runnable
         
         //Gets rid of unwanted white space
         messageType = messageType.trim();
-        System.out.println("TYPE " + messageType);
         
         //Gets the message as everything after the "-"
         message = new String(messagePacket.getData()).split("-")[1];
         
         //Gets rid of unwanted white space
         message = message.trim();
-        System.out.println("MESSAGE " + message);
     }
 
     /**
@@ -116,11 +114,18 @@ public class Message_Proccessor implements Runnable
             }
         }
         
-        //Checks if the message type is "GETSONG"
+        //Checks if the message type is "HEARTBEAT"
         else if (messageType.equals("HEARTBEAT"))
         {
             //Reply message for the heartbeat message to let the server know the peer is still online
             sendMessage = "HEARTBEAT-";
+        }
+        
+        //Checks if the message type is "OFFLINE"
+        else if (messageType.equals("OFFLINE"))
+        {
+            //Print goodbye message to let the user know the server knows they're gone
+            System.out.println(message);
         }
         
         //If the message type is not one that the server recognises

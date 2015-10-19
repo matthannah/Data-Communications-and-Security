@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=p
+comment0.target=Heartbeat_Counter(Peer)
+comment0.text=\r\n\ Constructor\ for\ the\ Heartbeat_Counter\ class.\ Sets\ the\ peer\ refference\r\n\ \r\n\ @param\ \ \ \ \ \ \ Music_Sever\r\n\ @return\ \ \ \ \ \ Message_Listener\r\n
+comment1.params=
+comment1.target=void\ run()
+comment1.text=\r\n\ Implementation\ of\ runnables\ run\ function.\ Counts\ down\ to\ when\ a\ client\ as\ taken\ too\ long\r\n\ to\ respond.\ Once\ this\ is\ reached\ the\ peer\ is\ set\ to\ offline.\r\n\ \r\n\ @param\ \ \ \ \ \ \ void\r\n\ @return\ \ \ \ \ \ void\r\n
+numComments=2

@@ -29,6 +29,9 @@ public class Peer
     
     //The address of the server
     private String serverAddress;
+    
+    //Whether of not the listeners should keep listening
+    private Boolean listen;
 
     /**
      * Constructor for objects of class Peer. The constructor sets the file name, sets the default
@@ -70,6 +73,9 @@ public class Peer
         
         //set to false by default until a connection is made
         online = false;
+        
+        //The peer should listen for messages by default
+        listen = true;
     }
     
     /**
@@ -250,8 +256,20 @@ public class Peer
      */
     public Boolean listen()
     {
-        //Always returns true as listener should always listen
-        return true;
+        //Always returns true until the user wants to exit
+        return listen;
+    }
+    
+    /**
+     * Sets the listen variable. Used to tell listener threads that they can stop listening. Needed to exit
+     * 
+     * @param       keepListening
+     * @return      Boolean    Whether or not to keep listening
+     */
+    public void setListen(Boolean keepListening)
+    {
+        //Set listen as what is passed in
+        listen = keepListening;
     }
     
     /**
@@ -314,9 +332,7 @@ public class Peer
         {
             //Create a new socket that is different to the one for receiving messages
             DatagramSocket messageSocket = new DatagramSocket();   
-            
-            System.out.println("Made socket");
-            
+                       
             //Byte array to store the message being sent
             byte[] dataToWrite = new byte[1024]; 
             
@@ -347,102 +363,112 @@ public class Peer
      * @return    void
      */
     public void TCPRequestSong(String ip, String songRequested) 
-    {  
-        //Used to hold a socket between this peer and they peer they are getting the song from
-        Socket socket;
-        
-        //For writing to the output stream
-        DataOutputStream out;
-        
-        //For reading from the input stream
-        InputStream in;
-        
-        //Used to write the mp3 file given
-        FileOutputStream fileOut;
-        
-        //An buffer for writing
-        BufferedOutputStream buff;
-        
-        //Buffer with a variable size
-        ByteArrayOutputStream baos;
-        
-        //Byte array of length 1
-        byte[] aByte = new byte[1];
-        
-        //Integer version of the byte read so it can be checked
-        int intOfByte;
-        
-        //The message that is sent to the other peers listener. Command GIVESONG follwed by the song wanted
-        String message = "GIVESONG-" + songRequested + "\n"; 
-        
-        //Where the mp3 will be written
-        final String path = "Songs/"+songRequested;
-        
-        //Attempt to get the file
-        try 
+    {
+        if (!songList.contains(songRequested.trim()))
         {
-            //Intitialise the socket using the IP given and 9202 as the port. This is know to be where they are listening
-            socket = new Socket(ip.trim(), 9202);  
+            //Used to hold a socket between this peer and they peer they are getting the song from
+            Socket socket;
             
-            //Set out equal to the output stream of the socket
-            out = new DataOutputStream(socket.getOutputStream()); 
+            //For writing to the output stream
+            DataOutputStream out;
             
-            //Send the message, created above, to sockets output stream which means it can be read by the other peer
-            out.writeBytes(message);
+            //For reading from the input stream
+            InputStream in;
             
-            //Tell the user that the song has been requested
-            System.out.println("Requested " + songRequested + " from peer at " + ip.trim());
+            //Used to write the mp3 file given
+            FileOutputStream fileOut;
             
-            //Initialise the byte array output stream
-            baos = new ByteArrayOutputStream();
+            //An buffer for writing
+            BufferedOutputStream buff;
             
-            //Get the input stream of the socket
-            in = socket.getInputStream();
+            //Buffer with a variable size
+            ByteArrayOutputStream baos;
             
-            //Create a file in the Songs directory with the same name as the song being requested
-            fileOut = new FileOutputStream(path);
+            //Byte array of length 1
+            byte[] aByte = new byte[1];
             
-            //Create a buffer for writing to the file 
-            buff = new BufferedOutputStream(fileOut);
+            //Integer version of the byte read so it can be checked
+            int intOfByte;
             
-            //Start reading from the input stream. This is what has been sent from the other peer
-            intOfByte = in.read(aByte, 0, aByte.length);
+            //The message that is sent to the other peers listener. Command GIVESONG follwed by the song wanted
+            String message = "GIVESONG-" + songRequested + "\n"; 
             
-            //Keep reading bytes and writing them to the byte array output stream until the whole file is read
-            do 
+            //Where the mp3 will be written
+            final String path = "Songs/"+songRequested;
+            
+            //Attempt to get the file
+            try 
             {
-                //Write the next byte to the byte array output stream
-                baos.write(aByte);
+                //Intitialise the socket using the IP given and 9202 as the port. This is know to be where they are listening
+                socket = new Socket(ip.trim(), 9202);  
                 
-                //Read the next byte into the single byte array, aByte. Also set the int version so it can be checked
-                intOfByte = in.read(aByte);
+                //Set out equal to the output stream of the socket
+                out = new DataOutputStream(socket.getOutputStream()); 
                 
-            } 
-            //Check if the end of the file has been reached
-            while (intOfByte != -1); 
+                //Send the message, created above, to sockets output stream which means it can be read by the other peer
+                out.writeBytes(message);
+                
+                //Tell the user that the song has been requested
+                System.out.println("Requested " + songRequested + " from peer at " + ip.trim());
+                
+                //Initialise the byte array output stream
+                baos = new ByteArrayOutputStream();
+                
+                //Get the input stream of the socket
+                in = socket.getInputStream();
+                
+                //Create a file in the Songs directory with the same name as the song being requested
+                fileOut = new FileOutputStream(path);
+                
+                //Create a buffer for writing to the file 
+                buff = new BufferedOutputStream(fileOut);
+                
+                //Start reading from the input stream. This is what has been sent from the other peer
+                intOfByte = in.read(aByte, 0, aByte.length);
+                
+                //Keep reading bytes and writing them to the byte array output stream until the whole file is read
+                do 
+                {
+                    //Write the next byte to the byte array output stream
+                    baos.write(aByte);
+                    
+                    //Read the next byte into the single byte array, aByte. Also set the int version so it can be checked
+                    intOfByte = in.read(aByte);
+                    
+                } 
+                //Check if the end of the file has been reached
+                while (intOfByte != -1); 
+                
+                //Write the file to the buffered output stream effect writing the file
+                buff.write(baos.toByteArray());
+                
+                //Makes sure that the writing to file in the line above is done completely
+                buff.flush();
+                
+                //Close the programs access to the file
+                buff.close();
+                
+                //Close the socket
+                socket.close();
+            }
             
-            //Write the file to the buffered output stream effect writing the file
-            buff.write(baos.toByteArray());
+            //If something went wrong while getting the file
+            catch (IOException e)
+            {
+                //print the error message of type IOException
+                System.err.println("IOException " + e);
+            }
             
-            //Makes sure that the writing to file in the line above is done completely
-            buff.flush();
-            
-            //Close the programs access to the file
-            buff.close();
-            
-            //Close the socket
-            socket.close();
+            //Let the user know that the song has been transfered
+            System.out.println(songRequested + " was successfully transfered");
         }
         
-        //If something went wrong while getting the file
-        catch (IOException e)
+        //If the peer already has the song
+        else
         {
-            //print the error message of type IOException
-            System.err.println("IOException " + e);
+            //Tell the user they have it already
+            System.out.println("You already have " + songRequested);
         }
-        
-        //Let the user know that the song has been transfered
-        System.out.println(songRequested + " was successfully transfered");
     }
     
     /**
@@ -467,7 +493,7 @@ public class Peer
         (new Thread(new Message_Listener(peer))).start();
         
         //Start up a thread to reply to song requests
-        (new Thread(new Song_Request_Listener())).start();
+        (new Thread(new Song_Request_Listener(peer))).start();
         
         //Send a message to the server to let it know the peer is online
         peer.sendMessage("ONLINE-" + peer.getName());
@@ -497,6 +523,9 @@ public class Peer
         
         //Send the peers list of songs to make sure the srever is upto date
         peer.sendMessage("NEWSONGS" + peer.getSongList());
+        
+        //Send the heartbeat message to start up the messaging loop to monitor online status
+        peer.sendMessage("HEARTBEAT-");
         
         //Loop until the user choses to exit
         while (!exit)
@@ -588,6 +617,12 @@ public class Peer
                 case 4: 
                     //Set exit to true so that this is the last time the loop runs
                     exit = true;
+                    
+                    //Tell the listeners they can stop
+                    peer.setListen(false);
+                    
+                    //Tell the server the peer is going offline
+                    peer.sendMessage("OFFLINE-");
                 
                     //Ignore the rest of the switch statement
                     break;

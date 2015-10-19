@@ -30,6 +30,9 @@ public class Peer
     
     //The address of that peer. Only important while the peer is online
     private String address;
+    
+    //Whether or not the client has sent it's latest heartbeat reply
+    private Boolean heartBeating;
 
     /**
      * Constructor for objects of class Peer. The constructor sets the file name, sets the default
@@ -270,5 +273,46 @@ public class Peer
     {
         //Return the address for the peer
         return songList;
+    }
+    
+    /**
+     * Heartbeat requested starts up a counter to see if the client responeds to a heartbeat in time.
+     * The counter checks whether or not the heartbeating flag has been set true in time. If not it
+     * sets that peer as offline
+     * 
+     * @param       void
+     * @return      void
+     */
+    public void heartbeatRequested()
+    {
+        //Return the address for the peer
+        heartBeating = false;
+        
+        //Starts up a thread to countdown until a client has taken too long to respond
+        (new Thread(new Heartbeat_Counter(this))).start();
+    }
+    
+    /**
+     * Sets the heartbeating flag
+     * 
+     * @param       beating     Whether or not the peer has reponded to it's latest heartbeat
+     * @return      void
+     */
+    public void setHeartbeating(Boolean beating)
+    {
+        //Sets the flag
+        heartBeating = beating;
+    }
+    
+    /**
+     * Get the heartbeating flag
+     * 
+     * @param       beating     Whether or not the peer has reponded to it's latest heartbeat
+     * @return      void
+     */
+    public Boolean heartBeating()
+    {
+        //Return the flag
+        return heartBeating;
     }
 }

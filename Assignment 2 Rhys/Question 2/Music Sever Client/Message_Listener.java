@@ -51,10 +51,7 @@ public class Message_Listener implements Runnable
                 
                 //Creates a packet that can store that message of the same size as the byte array 
                 DatagramPacket messagePacket = new DatagramPacket(message, message.length);
-                
-                //Print to the console that the client is ready and waiting for a message
-                System.out.println("Client is listening for messages...");
-                
+                                
                 //Waits until there is actually a message available
                 messageSocket.receive(messagePacket);
                 

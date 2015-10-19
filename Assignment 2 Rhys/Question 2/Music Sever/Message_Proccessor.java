@@ -111,6 +111,48 @@ public class Message_Proccessor implements Runnable
             sendMessage = "GETALL" + allSongs;
         }
         
+        //Checks if the message type is "HEARTBEAT"
+        else if (messageType.equals("HEARTBEAT"))
+        {           
+            //Ask the music server for the peer that this message is meant for based on its address
+            Peer peer = musicServer.getPeerByAddress(messagePacket.getAddress().toString());
+                                   
+            //Set the flag for heartbeats to true so that the music server knows the peer is still online
+            peer.setHeartbeating(true);
+            
+            //Attempt to wait for some time so that there aren't too many heartbeat messages
+            try 
+            {
+                //Wait for 5000ms before checking if the server has responded
+                Thread.sleep(5000);
+            }
+            
+            //If something goes wrong while trying to wait
+            catch (Exception e)
+            {
+                //Print a message to the user to let them know about the error
+                System.err.println(e);
+            }
+            
+            peer.heartbeatRequested();
+            
+            //Reply message to ask for another heartbeat. This may need a wait so messages aren't too numerous
+            sendMessage = "HEARTBEAT-";
+        }
+        
+        //Checks if the message type is "OFFLINE"
+        else if (messageType.equals("OFFLINE"))
+        {
+            //Ask the music server for the peer that this message is meant for based on its address
+            Peer peer = musicServer.getPeerByAddress(messagePacket.getAddress().toString());
+            
+            //Tell that peer to change online status
+            peer.setOnline(false);
+            
+            //Goodbye message for the client. Processing this will be their listener thread
+            sendMessage = "OFFLINE-Bye";
+        }
+        
         //If the message type is not one that the server recognises
         else
         {

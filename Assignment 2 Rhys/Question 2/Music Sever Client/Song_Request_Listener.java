@@ -11,20 +11,23 @@ public class Song_Request_Listener implements Runnable
     //The socket on which the peer will listen for song requests
     private ServerSocket serverSocket;
     
-    //Whether or not the peer should keep listening. Always true as the peer should always listen
-    private boolean listen = true;
-
+    //A refference to the peer object used to see if the listener should keep listening
+    private Peer peer;
+    
     /**
-     * Constructor for objects of class Song_Request_Listener. Does nothing apart from create the object
-     * itself
+     * Constructor for objects of class Song_Request_Listener. Sets the peer refference and lets the 
+     * user know that the listener is now listening for song requests
      * 
      * @param   void
      * @return  Song_Request_Listener
      */
-    public Song_Request_Listener()
+    public Song_Request_Listener(Peer p)
     {
         //Let the user know the TCP listener is active
         System.out.println("Listening for song requests");
+        
+        //Set the peer
+        peer = p;
     }
     
     /**
@@ -52,7 +55,7 @@ public class Song_Request_Listener implements Runnable
         }
         
         //Check if it shoudl still be listening. Always true
-        while (listen)
+        while (peer.listen())
         {
             //Attempt to receive and process a message
             try
