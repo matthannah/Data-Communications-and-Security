@@ -106,7 +106,7 @@ public class TCPListener implements Runnable
         catch (IOException e)
         {
             //print the error message of type IOException
-            System.err.println("socket closed");
+            System.err.println("IOException" + e);
         }
     }
     
@@ -128,7 +128,7 @@ public class TCPListener implements Runnable
         catch (IOException e)
         {
             //print the error message of type IOException
-            System.err.println("IOException " + e);
+            System.err.println("socket closed");
         }
     }
 }
