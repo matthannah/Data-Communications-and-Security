@@ -578,6 +578,8 @@ public class MusicServerPeer
                     //print the error message of type IOException
                     System.err.println("IOException " + e);
                 }
+                //trim any whitespace
+                input = input.trim();
                 //check if the input was equal to one of the ips
                 for(String p : peersWithSong)
                 {
