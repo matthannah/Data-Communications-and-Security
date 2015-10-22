@@ -542,20 +542,56 @@ public class MusicServerPeer
             String parts[] = message.split(",");
             //create a new string array list object
             ArrayList<String> peersWithSong = new ArrayList<String>();
+            //print message to user
+            System.out.println("----- PEERS WITH SONG -----");
             //loop through all data in the message
             for( int i = Integer.valueOf(parts[0]); i > 0; i--)
             {
                //add each ip to the array list of peers with songs
                peersWithSong.add(parts[i].substring(1));
+               //print each peer with song
+               System.out.println(parts[1].substring(1));
             } 
             //another check to make sure the list isn't empty - this probably isn't needed
             if (!peersWithSong.isEmpty()) {
-                //print a message to the user
-                System.out.println("Requesting song from: " + peersWithSong.get(0));
-                //requests the song from the first ip in the list, this method could be extended
-                //to allow the user to select what peer they would like the song from
-                //if there is more than one
-                TCPRequestSong(peersWithSong.get(0), songRequested); 
+                //create a new input stream reader which converts bytes entered by the user
+                //at the command line, and convertes these bytes into chracters
+                InputStreamReader isr = new InputStreamReader(System.in);
+                //wrap the input stream reader in a buffered reader which reads from the
+                //character stream and buffers characters into readable strings
+                BufferedReader br = new BufferedReader(isr);
+                //string that will hold the users input entered
+                String input = "";
+                //prints message to user to assist in input
+                System.out.println("Enter the ip of the peer you'd like the song from");
+                //enclose code that might throw an exception in a try block
+                try
+                {
+                    //use the buffered readers method read line to read a line of text
+                    //which is then set equal to the string input; a line of text is one that
+                    //end in a '\n' (in the users cae pressing the carriage return key)
+                    input = br.readLine();
+                }
+                //enclose exception handling code in a catch block
+                catch (IOException e)
+                {
+                    //print the error message of type IOException
+                    System.err.println("IOException " + e);
+                }
+                //check if the input was equal to one of the ips
+                for(String p : peersWithSong)
+                {
+                    //if the input was equal to one of the peers
+                    if (input.equals(p))
+                    {
+                        //print a message to the user
+                        System.out.println("Requesting song from: " + p);
+                        //requests the song from the ip entered
+                        TCPRequestSong(p, songRequested);
+                        return;
+                    }
+                }
+                System.out.println("Error: ip entered did not match a peer");
             }
         }
     }
