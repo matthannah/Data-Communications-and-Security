@@ -531,69 +531,86 @@ public class MusicServerPeer
     {
         //ask the peer what song they would like
         String songRequested = selectSong(); 
-        //ask the server what peers have the song
-        String message = requestPeersWithSong(songRequested); 
-        //if the message doesn't start with 0, that is atleast one peer has the song requested
-        if (!message.startsWith("0"))
+        //check if you already have this song
+        boolean hasSong = false;
+        //loop through songs
+        for (String song : songs)
         {
-            //split method is used because the message syntax is divided by commas, 
-            //and the first part being the number of data sent
-            //example 4 peers with song requested: 4,ip1,ip2,ip3,ip4
-            String parts[] = message.split(",");
-            //create a new string array list object
-            ArrayList<String> peersWithSong = new ArrayList<String>();
-            //print message to user
-            System.out.println("----- PEERS WITH SONG -----");
-            //loop through all data in the message
-            for( int i = Integer.valueOf(parts[0]); i > 0; i--)
+            //if songs equal
+            if(songRequested.equals(song))
             {
-               //add each ip to the array list of peers with songs
-               peersWithSong.add(parts[i].substring(1).trim());
-               //print each peer with song
-               System.out.println(parts[1].substring(1).trim());
-            } 
-            //another check to make sure the list isn't empty - this probably isn't needed
-            if (!peersWithSong.isEmpty()) {
-                //create a new input stream reader which converts bytes entered by the user
-                //at the command line, and convertes these bytes into chracters
-                InputStreamReader isr = new InputStreamReader(System.in);
-                //wrap the input stream reader in a buffered reader which reads from the
-                //character stream and buffers characters into readable strings
-                BufferedReader br = new BufferedReader(isr);
-                //string that will hold the users input entered
-                String input = "";
-                //prints message to user to assist in input
-                System.out.println("Enter the ip of the peer you'd like the song from");
-                //enclose code that might throw an exception in a try block
-                try
+                //you have the song
+                hasSong = true;
+                //print message to user
+                System.out.println("You already have that song!");
+            }
+        }
+        if (!hasSong)
+        {
+            //ask the server what peers have the song
+            String message = requestPeersWithSong(songRequested); 
+            //if the message doesn't start with 0, that is atleast one peer has the song requested
+            if (!message.startsWith("0"))
+            {
+                //split method is used because the message syntax is divided by commas, 
+                //and the first part being the number of data sent
+                //example 4 peers with song requested: 4,ip1,ip2,ip3,ip4
+                String parts[] = message.split(",");
+                //create a new string array list object
+                ArrayList<String> peersWithSong = new ArrayList<String>();
+                //print message to user
+                System.out.println("----- PEERS WITH SONG -----");
+                //loop through all data in the message
+                for( int i = Integer.valueOf(parts[0]); i > 0; i--)
                 {
-                    //use the buffered readers method read line to read a line of text
-                    //which is then set equal to the string input; a line of text is one that
-                    //end in a '\n' (in the users cae pressing the carriage return key)
-                    input = br.readLine();
-                }
-                //enclose exception handling code in a catch block
-                catch (IOException e)
-                {
-                    //print the error message of type IOException
-                    System.err.println("IOException " + e);
-                }
-                //trim any whitespace
-                input = input.trim();
-                //check if the input was equal to one of the ips
-                for(String p : peersWithSong)
-                {
-                    //if the input was equal to one of the peers
-                    if (input.equals(p))
+                   //add each ip to the array list of peers with songs
+                   peersWithSong.add(parts[i].substring(1).trim());
+                   //print each peer with song
+                   System.out.println(parts[1].substring(1).trim());
+                } 
+                //another check to make sure the list isn't empty - this probably isn't needed
+                if (!peersWithSong.isEmpty()) {
+                    //create a new input stream reader which converts bytes entered by the user
+                    //at the command line, and convertes these bytes into chracters
+                    InputStreamReader isr = new InputStreamReader(System.in);
+                    //wrap the input stream reader in a buffered reader which reads from the
+                    //character stream and buffers characters into readable strings
+                    BufferedReader br = new BufferedReader(isr);
+                    //string that will hold the users input entered
+                    String input = "";
+                    //prints message to user to assist in input
+                    System.out.println("Enter the ip of the peer you'd like the song from");
+                    //enclose code that might throw an exception in a try block
+                    try
                     {
-                        //print a message to the user
-                        System.out.println("Requesting song from: " + p);
-                        //requests the song from the ip entered
-                        TCPRequestSong(p, songRequested);
-                        return;
+                        //use the buffered readers method read line to read a line of text
+                        //which is then set equal to the string input; a line of text is one that
+                        //end in a '\n' (in the users cae pressing the carriage return key)
+                        input = br.readLine();
                     }
+                    //enclose exception handling code in a catch block
+                    catch (IOException e)
+                    {
+                        //print the error message of type IOException
+                        System.err.println("IOException " + e);
+                    }
+                    //trim any whitespace
+                    input = input.trim();
+                    //check if the input was equal to one of the ips
+                    for(String p : peersWithSong)
+                    {
+                        //if the input was equal to one of the peers
+                        if (input.equals(p))
+                        {
+                            //print a message to the user
+                            System.out.println("Requesting song from: " + p);
+                            //requests the song from the ip entered
+                            TCPRequestSong(p, songRequested);
+                            return;
+                        }
+                    }
+                    System.out.println("Error: ip entered did not match a peer");
                 }
-                System.out.println("Error: ip entered did not match a peer");
             }
         }
     }
