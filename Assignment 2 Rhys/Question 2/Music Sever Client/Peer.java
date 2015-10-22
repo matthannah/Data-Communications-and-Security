@@ -4,8 +4,9 @@ import java.net.*;
 import java.io.*;
 
 /**
- * Peer is the clients representation of a peer that is known and is responisble for 
- * keeping track of thier song list as well as whether or not they are online.
+ * Peer is the clients representation of a peer that is known to the server and is 
+ * responisble for keeping track of thier song list as well as whether or not they 
+ * are online.
  * 
  * @author Rhys Hill 
  * @version 1.0
@@ -26,6 +27,9 @@ public class Peer
     
     //Boolean to represent whether or not the peer is online
     private Boolean online;
+    
+    //Boolean to represent whether or not the peer is online
+    private Boolean requestingSong;
     
     //The address of the server
     private String serverAddress;
@@ -356,6 +360,30 @@ public class Peer
     }
     
     /**
+     * Returns the status of the requesting song flag. This lets the system know that the peer is requesting a song
+     * 
+     * @param       void
+     * @return      Boolean     Whether or not the peer is requesting a song
+     */
+    public Boolean requestingSong()
+    {
+        //Return whether or not a song request is being processed
+        return requestingSong;
+    }
+    
+    /**
+     * Sets the status of the requesting song flag. This lets the system know that the peer is requesting a song
+     * 
+     * @param       void
+     * @return      Boolean     Whether or not the peer is requesting a song
+     */
+    public void setRequestingSong(Boolean request)
+    {
+        //Return whether or not a song request is being processed
+        requestingSong = request;
+    }
+    
+    /**
      * TCPRequestSong creates a TCP connection with a peer and exchanges message to receive a song file which was requested
      * 
      * @param     ip               the ip of the peer which the songs will be transfered from
@@ -450,25 +478,72 @@ public class Peer
                 
                 //Close the socket
                 socket.close();
+                
+                //Let the user know that the song has been transfered
+                System.out.println(songRequested + " was successfully transfered");
             }
             
             //If something went wrong while getting the file
             catch (IOException e)
             {
+                //Let the user know that an error occured during the transfer
+                System.out.println("An error occured while transfering " + songRequested);
+                
                 //print the error message of type IOException
                 System.err.println("IOException " + e);
             }
-            
-            //Let the user know that the song has been transfered
-            System.out.println(songRequested + " was successfully transfered");
         }
-        
+                
         //If the peer already has the song
         else
         {
             //Tell the user they have it already
             System.out.println("You already have " + songRequested);
         }
+        
+        //Set the flag to say that the peer is no longer requesting a song
+        setRequestingSong(false);
+    }
+    
+    /**
+     * In TCPGoodbye the peer creates a TCP message to itslef which the listener will process so that it
+     * can finish it's final interation of it's while loop. This function is called when a peer wants to 
+     * exit the program
+     * 
+     * @param     void
+     * @return    void
+     */
+    public void TCPGoodBye()
+    {
+        //This socket is used to send the final message
+        Socket socket;
+            
+        //For writing to the output stream
+        DataOutputStream out;
+        
+        //The message that the peer sends to itself
+        String message = "OFFLINE-" + "\n"; 
+        
+        //Attempt to send the message
+        try 
+        {
+            //Intitialise the socket using the local host IP and the port where the listener is listening
+            //This IP will result in the message returning to the peer sending it
+            socket = new Socket("127.0.0.1", 9202);  
+            
+            //Set out equal to the output stream of the socket
+            out = new DataOutputStream(socket.getOutputStream()); 
+            
+            //Send the message, created above, to sockets output stream which means it can heard by the listener
+            out.writeBytes(message);
+        }
+        
+        //If something goes wrong while sending the message
+        catch (Exception finalMessage)
+        {
+            //Let the user know something went wrong with the final message
+            System.err.println(finalMessage);
+        }  
     }
     
     /**
@@ -598,6 +673,26 @@ public class Peer
                 
                     //Send a request to the server for the address of a peer who has that song
                     peer.sendMessage("GETSONG-" + songTitle);
+                    
+                    //Set the flag that the peer is requesting a song
+                    peer.setRequestingSong(true);
+                    
+                    //Check if the peer is requesting a song and if so wait  
+                    while(peer.requestingSong())
+                    {
+                        //Do nothing. Waiting for the song request process to be finished
+                        try 
+                        {
+                            //Wait for 100ms before checking if the song request has been finished
+                            Thread.sleep(100);
+                        }
+                        //If something goes wrong while trying to wait
+                        catch (Exception e)
+                        {
+                            //Print a message to the user to let them know th error
+                            System.err.println(e);
+                        }
+                    }
                 
                     //Ignore the rest of the switch statement
                     break;
@@ -623,6 +718,9 @@ public class Peer
                     
                     //Tell the server the peer is going offline
                     peer.sendMessage("OFFLINE-");
+                    
+                    //Send a final TCP message to end the listener thread
+                    peer.TCPGoodBye();
                 
                     //Ignore the rest of the switch statement
                     break;

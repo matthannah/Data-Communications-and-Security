@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 
 /**
  * The Music_Sever class is responsible for maintaining a list of peers and thier
- * song. It is also responsible for providing clients with a address to connect
+ * songs. It is also responsible for providing clients with a address to connect
  * to when they request songs.
  * 
  * @author Rhys Hill
@@ -313,25 +313,29 @@ public class Music_Sever
         //Loop through all the peers in the peer list
         for (Peer peer : peerList)
         {
-            //Get the song list for that peer
-            peerSongsList = peer.getSongList();
-            
-            //Loop through all the songs on that list
-            for (String song : peerSongsList)
+            //Check if the peer is still online
+            if(peer.getOnline())
             {
-                //Get rid of white space
-                song = song.trim();
+                //Get the song list for that peer
+                peerSongsList = peer.getSongList();
                 
-                //Check if the song is already listed
-                if (!allSongsList.contains(song))
+                //Loop through all the songs on that list
+                for (String song : peerSongsList)
                 {
-                    //If not listed, adds that song to the overall list
-                    allSongsList.add(song);
+                    //Get rid of white space
+                    song = song.trim();
                     
-                    //Add the title to the end of the string
-                    allSongs = allSongs + "-" + song;
-                    
-                    System.out.println(song);
+                    //Check if the song is already listed
+                    if (!allSongsList.contains(song))
+                    {
+                        //If not listed, adds that song to the overall list
+                        allSongsList.add(song);
+                        
+                        //Add the title to the end of the string
+                        allSongs = allSongs + "-" + song;
+                        
+                        System.out.println(song);
+                    }
                 }
             }
         }

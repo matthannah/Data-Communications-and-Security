@@ -71,10 +71,7 @@ public class Song_Request_Listener implements Runnable
                 
                 //Read the message that was received
                 messageType = buff.readLine();
-                
-                //print message that will notify the user a message has been received
-                System.out.println(messageType.split("-")[0] + " message received");
-                
+                               
                 //Makes sure the message has the right type. Prevents processing of messages from other sources
                 if (messageType.startsWith("GIVESONG"))
                 {
@@ -116,6 +113,13 @@ public class Song_Request_Listener implements Runnable
                     
                     //Let the user know the song has been sent
                     System.out.println(song + " has been successfully sent");
+                }
+                
+                //Check if the message type is an offline message
+                else if (messageType.startsWith("OFFLINE"))
+                {
+                    //Let the user know they are not listening to other peers
+                    System.out.println("No longer taking song requests");
                 }
             }
             

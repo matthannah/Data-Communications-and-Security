@@ -148,16 +148,16 @@ public class Message_Proccessor implements Runnable
             
             //Tell that peer to change online status
             peer.setOnline(false);
-            
+                        
             //Goodbye message for the client. Processing this will be their listener thread
-            sendMessage = "OFFLINE-Bye";
+            sendMessage = "OFFLINE-GoodBye";
         }
         
         //If the message type is not one that the server recognises
         else
         {
             //Create a reply message for client to tell them something went wrong
-            sendMessage = "FUCKKNOWS";
+            sendMessage = "NOTRECOGNISED-";
         }
         
         //Attempt to reply to the client
