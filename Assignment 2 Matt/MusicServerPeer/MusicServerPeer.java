@@ -584,7 +584,7 @@ public class MusicServerPeer
                 for(String p : peersWithSong)
                 {
                     //if the input was equal to one of the peers
-                    if (input.equals(p))
+                    if (input.equals(p + "\n"))
                     {
                         //print a message to the user
                         System.out.println("Requesting song from: " + p);
