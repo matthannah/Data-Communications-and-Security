@@ -548,9 +548,9 @@ public class MusicServerPeer
             for( int i = Integer.valueOf(parts[0]); i > 0; i--)
             {
                //add each ip to the array list of peers with songs
-               peersWithSong.add(parts[i].substring(1));
+               peersWithSong.add(parts[i].substring(1).trim());
                //print each peer with song
-               System.out.println(parts[1].substring(1));
+               System.out.println(parts[1].substring(1).trim());
             } 
             //another check to make sure the list isn't empty - this probably isn't needed
             if (!peersWithSong.isEmpty()) {
@@ -584,7 +584,7 @@ public class MusicServerPeer
                 for(String p : peersWithSong)
                 {
                     //if the input was equal to one of the peers
-                    if (input.equals(p + "\n"))
+                    if (input.equals(p))
                     {
                         //print a message to the user
                         System.out.println("Requesting song from: " + p);
