@@ -326,6 +326,8 @@ public class MusicServerPeer
         tcpListener.finish();
         //set the running boolean to false
         running = false;
+        //notify offline with the server
+        goOffline();
     }
     
     /**
@@ -728,6 +730,46 @@ public class MusicServerPeer
         else 
         {
             System.out.println("Song name does not exist");
+        }
+    }
+    
+    public void goOffline()
+    {
+        //socket for sending and receiving datagram packets
+        DatagramSocket clientSocket;
+        //datagram packet for connectionless packet delivery (udp)
+        DatagramPacket sendPacket;
+        //internet protocol address
+        InetAddress IPAddress;         
+        //new byte array object of size 1024 bytes (1kB)
+        byte[] sendData = new byte[1024];            
+        //message that contains the data to be sent
+        String message = "Offline";   
+        //set the sendData byte array equal to the message string converted to bytes
+        sendData = message.getBytes(); 
+        //enclose code that might throw an exception in a try block
+        try 
+        { 
+            //set the ip equal to the server IP entered by the user converted to a InetAddress object
+            IPAddress = InetAddress.getByName(serverIP);
+            //create a new datagram socket object
+            clientSocket = new DatagramSocket(); 
+            //create a new datagram packet object, contrcuted by passing the arguments:
+            //sendData - the byte array of the message to be sent
+            //sendData.length - number of bytes in the message
+            //IPAddress - ip of the server
+            //serverPort - port number of the server
+            sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, serverPort);
+            //send the datagram packet along the connectionless client socket to the server
+            clientSocket.send(sendPacket);  
+            //close the client socket
+            clientSocket.close(); 
+        }
+        //enclose exception handling code in a catch block
+        catch (IOException e)
+        {
+            //print the error message of type IOException
+            System.err.println("IOException " + e);
         }
     }
 }

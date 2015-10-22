@@ -87,6 +87,28 @@ public class PeerManager
     }
     
     /**
+     * removePeer     - removes a peer from the peer list
+     * 
+     * @param         - Peer peer - the peer to be removed from the list
+     */
+    synchronized public void removePeer(Peer peer)
+    {
+        //print a message saying a peer has been removed
+        System.out.println("Peer removed: " + peer.getIP());
+        //loop through peer list
+        for (int i = 0; i < peers.size(); i++)
+        {
+            //find the peer that is going offline
+            if(peers.get(i).getIP().equals(peer.getIP()))
+            {
+                //remove the peer
+                peers.remove(i);
+                break;
+            }
+        }  
+    }
+    
+    /**
      * getSongOwnerList - gets a list of ips of all peers that have a song
      * 
      * @param           - String songRequested - the song to be checked

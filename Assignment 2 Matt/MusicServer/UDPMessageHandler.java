@@ -58,8 +58,8 @@ public class UDPMessageHandler implements Runnable
                     //print them out
                     System.out.println(peer.getSongList().get(i-1));
                 }            
-                //write all the songs to the songs.txt file
-                server.getSongFileWriter().write(server.getPeerManager().getPeerList());
+                //write the peers song list to file
+                server.getSongFileWriter().write(peer);
             }
         }
         //If the message starts with Song, the peer is requesting who has that song specified in the message
@@ -146,8 +146,8 @@ public class UDPMessageHandler implements Runnable
                     //print each song the peer has
                     System.out.println(peer.getSongList().get(i-1));
                 }        
-                //update the song.txt file with all the songs
-                server.getSongFileWriter().write(server.getPeerManager().getPeerList());
+                //update the peers file
+                server.getSongFileWriter().write(peer);
             }
         }
         //if the message starts with List, the peer is requesting a song list of all songs
@@ -206,6 +206,17 @@ public class UDPMessageHandler implements Runnable
             {
                 //print the error message of type IOException
                 System.err.println("IOException " + e);
+            }
+        }
+        if(message.startsWith("Offline"))
+        {
+            //check that the peer exists (can't remove peer if they don't exist)
+            if (server.getPeerManager().peerExists(packet.getAddress().toString()))
+            {    
+                //get the peer from the peer manager with ip equal to the ip of packet received
+                Peer peer = server.getPeerManager().getPeer(packet.getAddress().toString());
+                //remove the peer from the peer list
+                server.getPeerManager().removePeer(peer);
             }
         }
     }
