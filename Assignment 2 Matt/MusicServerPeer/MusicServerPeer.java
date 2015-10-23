@@ -597,17 +597,14 @@ public class MusicServerPeer
                     //trim any whitespace
                     input = input.trim();
                     //check if the input was equal to one of the ips
-                    for(String p : peersWithSong)
+                    if(peersWithSong.contains(input))
                     {
-                        //if the input was equal to one of the peers
-                        if (input.equals(p))
-                        {
-                            //print a message to the user
-                            System.out.println("Requesting song from: " + p);
-                            //requests the song from the ip entered
-                            TCPRequestSong(p, songRequested);
-                            return;
-                        }
+                    	//print a message to the user
+                        System.out.println("Requesting song from: " + p);
+                        //requests the song from the ip entered
+                        TCPRequestSong(p, songRequested);
+                        return;
+          
                     }
                     System.out.println("Error: ip entered did not match a peer");
                 }
