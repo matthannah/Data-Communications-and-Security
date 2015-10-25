@@ -54,6 +54,7 @@ public class MusicServer
         //int that will hold the users input entered
         int input = 0;
         //print the menu to assist the user in executing program functionality
+        System.out.println("");
         System.out.println("Select functionality: ");
         System.out.println("1: Show Peers Online | 2: Show All Songs");
         //enclose code that might throw an exception in a try block
