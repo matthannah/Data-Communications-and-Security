@@ -94,11 +94,13 @@ public class MusicServer
      */
     public void showOnline()
     {
+        System.out.println("");
         System.out.println("----- PEERS ONLINE -----");
         for (Peer peer : peerManager.getPeerList())
         {
             System.out.println(peer.getIP());
         }
+        System.out.println("");
     } 
     
     /**
@@ -107,9 +109,11 @@ public class MusicServer
      */
     public void showSongs()
     {
+        System.out.println("");
         System.out.println("----- ALL SONGS -----");
         for (Peer peer : peerManager.getPeerList())
         {
+            System.out.println("");
             System.out.println(peer.getIP());
             System.out.println("--------------------");
             for (String song : peer.getSongList())
