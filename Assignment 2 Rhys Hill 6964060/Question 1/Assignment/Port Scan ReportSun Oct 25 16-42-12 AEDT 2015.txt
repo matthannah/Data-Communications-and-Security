@@ -1,0 +1,101 @@
+Port Scan Report
+
+Report generated: Sun Oct 25 16-42-12 AEDT 2015
+Starting IP Address: 192.168.2.5
+Range of IP Address': 10
+Range of Ports: from 0 to 2000
+
+Port Scan Results for IP Address 192.168.2.5
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.5 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.6
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.6 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.7
+
+Within the same subnet
+
+Open port found 139 using 461ms as the timeout
+Open port found 554 using 131ms as the timeout
+Open port found 135 using 301ms as the timeout
+Open port found 445 using 405ms as the timeout
+
+There are 4 open ports on host 192.168.2.7 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.8
+
+Within the same subnet
+
+Open port found 554 using 353ms as the timeout
+Open port found 445 using 316ms as the timeout
+Open port found 135 using 116ms as the timeout
+Open port found 139 using 325ms as the timeout
+
+There are 4 open ports on host 192.168.2.8 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.9
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.9 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.10
+
+Within the same subnet
+
+Open port found 1277 using 328ms as the timeout
+Open port found 1900 using 292ms as the timeout
+Open port found 1654 using 220ms as the timeout
+Open port found 1711 using 442ms as the timeout
+
+There are 4 open ports on host 192.168.2.10 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.11
+
+Within the same subnet
+
+Open port found 135 using 390ms as the timeout
+Open port found 445 using 422ms as the timeout
+Open port found 80 using 228ms as the timeout
+Open port found 1029 using 461ms as the timeout
+Open port found 1025 using 312ms as the timeout
+Open port found 902 using 446ms as the timeout
+Open port found 1027 using 190ms as the timeout
+Open port found 1028 using 451ms as the timeout
+Open port found 1031 using 244ms as the timeout
+Open port found 912 using 282ms as the timeout
+Open port found 1026 using 449ms as the timeout
+Open port found 139 using 119ms as the timeout
+
+There are 12 open ports on host 192.168.2.11 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.12
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.12 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.13
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.13 probed with a timeout between 100ms and 500ms
+
+Port Scan Results for IP Address 192.168.2.14
+
+Within the same subnet
+
+
+There are 0 open ports on host 192.168.2.14 probed with a timeout between 100ms and 500ms
+

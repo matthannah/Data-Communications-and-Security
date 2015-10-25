@@ -1,0 +1,91 @@
+Project documentation
+<---- javadoc command: ---->
+C:\Program Files\Java\jdk1.8.0_51\bin\javadoc.exe
+-sourcepath
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client
+-source
+1.8
+-classpath
+C:\Program Files (x86)\Blue J\lib\bluejcore.jar;C:\Program Files (x86)\Blue J\lib\junit-4.8.2.jar;C:\Program Files (x86)\Blue J\lib\userlib\pi4j-core.jar;C:\Program Files (x86)\Blue J\lib\userlib\pi4j-device.jar;C:\Program Files (x86)\Blue J\lib\userlib\pi4j-gpio-extension.jar;C:\Program Files (x86)\Blue J\lib\userlib\pi4j-service.jar;C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client
+-d
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+C:\Program Files (x86)\Blue J\lib\bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+-doctitle
+Music Sever Client
+-windowtitle
+Music Sever Client
+-author
+-version
+-nodeprecated
+-package
+-link
+http://download.oracle.com/javase/8/docs/api/
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client/Song_Request_Listener.java
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client/Peer.java
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client/Message_Listener.java
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client/Message_Proccessor.java
+<---- end of javadoc command ---->
+Loading source file C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Song_Request_Listener.java...
+Loading source file C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java...
+Loading source file C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Listener.java...
+Loading source file C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Proccessor.java...
+Constructing Javadoc information...
+Standard Doclet version 1.8.0_51
+Building tree for all the packages and classes...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\Message_Listener.html...
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Listener.java:25: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Listener.java:25: warning - @param argument "Music_Sever" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Listener.java:38: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Listener.java:38: warning - @return tag cannot be used in method with void return type.
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\Message_Proccessor.html...
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Proccessor.java:35: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Proccessor.java:35: warning - @param argument "Peer" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Proccessor.java:63: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Message_Proccessor.java:63: warning - @return tag cannot be used in method with void return type.
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\Peer.html...
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:48: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:48: warning - @param argument "fileName" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:119: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:285: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:179: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:249: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:297: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:261: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:555: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:368: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:332: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:237: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:273: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:191: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:225: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:380: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:380: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:516: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:516: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:393: warning - @return tag cannot be used in method with void return type.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:91: warning - @param argument "void" is not a parameter name.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Peer.java:91: warning - @return tag cannot be used in method with void return type.
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\Song_Request_Listener.html...
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Song_Request_Listener.java:24: warning - Tag @return cannot be used in constructor documentation.  It can only be used in the following types of documentation: method.
+C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\Song_Request_Listener.java:24: warning - @param argument "void" is not a parameter name.
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\package-frame.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\package-summary.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\package-tree.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\constant-values.html...
+Building index for all the packages and classes...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\overview-tree.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\index-all.html...
+Building index for all classes...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\allclasses-frame.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\allclasses-noframe.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\index.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\help-doc.html...
+Generating C:\Users\69640_000\Documents\GitHub\Data-Communications-and-Security\Assignment 2 Rhys\Question 2\Music Sever Client\doc\stylesheet.css...
+32 warnings

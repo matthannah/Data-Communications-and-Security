@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment1.params=es\ ip\ port\ timeout\ out
+comment1.target=java.util.concurrent.Future\ portIsOpen(java.util.concurrent.ExecutorService,\ java.lang.String,\ int,\ int,\ java.io.FileOutputStream)
+comment1.text=\r\n\ portIsOpen\ checks\ if\ a\ given\ port\ is\ open\ by\ attempting\ to\ make\ a\ socket\ and\ connect\ to\ a\ secified\ IP\ and\ port\ \r\n\ number\ with\ a\ given\ timeout\ value.\ It\ uses\ a\ future\ callble\ so\ that\ this\ test\ can\ be\ done\ symultaneously\ with\ \r\n\ other\ test.\ The\ function\ asking\ for\ the\ result\ of\ this\ test\ will\ wait\ until\ that\ result\ is\ available.\r\n\ \r\n\ @param\ \ \ \ \ \ \ ExecutorService\ \ \ \ \ The\ systems\ executor\ service\r\n\ @param\ \ \ \ \ \ \ String\ \ \ \ \ \ \ \ \ \ \ \ \ \ The\ IP\ address\ that\ should\ be\ scanned\r\n\ @param\ \ \ \ \ \ \ int\ \ \ \ \ port\ \ \ \ \ \ \ \ The\ port\ to\ be\ scanned\r\n\ @param\ \ \ \ \ \ \ int\ \ \ \ \ timeout\ \ \ \ \ The\ time\ that\ a\ connection\ should\ be\ waited\ for\r\n\ @param\ \ \ \ \ \ \ FileOutputStream\ \ \ \ The\ output\ stream\ to\ the\ report\ file\ that\ is\ being\ written\r\n\ @return\ \ \ \ \ \ Future<Boolean>\ \ \ \ \ Whether\ or\ not\ the\ port\ is\ open\r\n
+comment2.params=
+comment2.target=java.lang.Boolean\ call()
+comment3.params=outsideIp\ out
+comment3.target=java.lang.Boolean\ inMySubnet(java.lang.String,\ java.io.FileOutputStream)
+comment3.text=\r\n\ isMySubnet\ checks\ if\ a\ given\ IP\ address\ is\ a\ part\ of\ the\ users\ subnet.\ This\ is\ done\ by\ obtaining\r\n\ the\ subnet\ and\ IP\ of\ the\ user\ and\ then\ comparing\ the\ relavent\ bits\ of\ the\ two\ IPs.\ Relavent\ bits\ \r\n\ are\ determind\ by\ the\ subnet\ mask\r\n\ \r\n\ @param\ \ \ String\ \ \ \ \ \ \ \ \ \ \ \ \ \ The\ IP\ to\ be\ checked\ to\ see\ if\ it's\ part\ of\ the\ subnet\ \r\n\ @param\ \ \ FileOutputStream\ \ \ \ The\ output\ stream\ to\ the\ file\ that's\ being\ written\ to\r\n
+numComments=4
